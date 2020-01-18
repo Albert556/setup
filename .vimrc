@@ -1,3 +1,7 @@
+"设置vi一致性
+set nocompatible
+"设置backspace
+set backspace=indent,eol,start
 "设置行号
 set nu
 augroup relative_numbser
@@ -12,13 +16,15 @@ set encoding=utf-8
 "突出显示当前行
 set cursorline
 "启用鼠标
-set mouse=r
+set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
 "设置剪切板
 set clipboard=unnamed
 "显示括号匹配
 set showmatch
+" 高亮搜索结果
+set hlsearch      
 "设置缩进
 "设置Tab长度为4空格
 set tabstop=4
@@ -37,3 +43,12 @@ set laststatus=2
 set ruler
 "打开文件类型检测
 filetype plugin indent on
+set foldenable                 " 允许折叠 
+set foldmethod=manual          " 手动折叠
+
+"状态栏
+set statusline=%1*\%<%.50F\             "显示文件名和文件路径 (%<应该可以去掉)
+set statusline+=%=%2*\%y%m%r%h%w\ %*        "显示文件类型及文件状态
+set statusline+=%3*\%{&ff}\[%{&fenc}]\ %*   "显示文件编码类型
+set statusline+=%4*\ row:%l/%L,col:%c\ %*   "显示光标所在行和列
+set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
