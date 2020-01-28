@@ -15,12 +15,16 @@ set termencoding=utf-8
 set encoding=utf-8
 "突出显示当前行
 set cursorline
+"关键字高亮
+syntax on
 "启用鼠标
 set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
 "设置剪切板
 set clipboard=unnamed
+"显示输入命令
+set showcmd
 "显示括号匹配
 set showmatch
 " 高亮搜索结果
