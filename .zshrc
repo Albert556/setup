@@ -94,8 +94,8 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-#export LC_ALL=en_US.UTF-8  
-#export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
 
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -107,5 +107,30 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias la="ls -la"
-alias spc="export ALL_PROXY=socks5://127.0.0.1:1081"
 
+# 终端设置代理
+# -------------------------------
+# polipo proxy on/off
+# ------------------------------
+function proxy_on_sock5() {
+    # 配置http访问的
+    # export http_proxy=socks5://127.0.0.1:1080
+    # 配置https访问的
+    # export https_proxy=socks5://127.0.0.1:1080
+    # 配置http和https访问
+    export all_proxy=socks5://127.0.0.1:1080
+    echo '********   开启当前终端代理   ********'
+}
+
+function proxy_on_http(){
+	export all_proxy=http://127.0.0.1:1087
+    echo '********   开启当前终端代理   ********'
+}
+
+function proxy_off() {
+    # 移除代理
+    # unset http_proxy
+    # unset https_proxy
+    unset all_proxy
+    echo '********   关闭当前终端代理   ********'
+}
