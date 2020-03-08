@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/albert/.oh-my-zsh"
+export ZSH="/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -94,9 +94,8 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export LC_ALL=en_US.UTF-8  
-export LANG=en_US.UTF-8
-
+# export LC_ALL=en_US.UTF-8  
+# export LANG=en_US.UTF-8
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -112,19 +111,23 @@ alias la="ls -la"
 # -------------------------------
 # polipo proxy on/off
 # ------------------------------
-function proxy_on_sock5() {
+function proxy_on() {
     # 配置http访问的
     # export http_proxy=socks5://127.0.0.1:1080
     # 配置https访问的
     # export https_proxy=socks5://127.0.0.1:1080
     # 配置http和https访问
-    export all_proxy=socks5://127.0.0.1:1080
-    echo '********   开启当前终端代理   ********'
-}
-
-function proxy_on_http(){
-	export all_proxy=http://127.0.0.1:1087
-    echo '********   开启当前终端代理   ********'
+	if [ $# -gt 0 ] && [ $1 = h ]
+    then
+		# if [ $1 = h ]
+		# then
+		export all_proxy=http://127.0.0.1:1087
+   		echo '********   open terminal http   ********'
+		# fi
+	else
+		export all_proxy=socks5://127.0.0.1:1080
+    	echo '********   open terminal socks5   ********'
+	fi
 }
 
 function proxy_off() {
@@ -132,5 +135,7 @@ function proxy_off() {
     # unset http_proxy
     # unset https_proxy
     unset all_proxy
-    echo '********   关闭当前终端代理   ********'
+    echo '********   close termianl proxy   ********'
 }
+
+proxy_on
