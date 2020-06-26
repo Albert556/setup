@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/.oh-my-zsh"
+export ZSH="/Users/albert/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -110,21 +110,11 @@ alias la="ls -la"
 # ------------------------------
 function proxy_on() {
     # 配置http访问的
-    # export http_proxy=socks5://127.0.0.1:1080
+    export http_proxy=http://127.0.0.1:7891
     # 配置https访问的
-    # export https_proxy=socks5://127.0.0.1:1080
+    export https_proxy=http://127.0.0.1:7891
     # 配置http和https访问
-	if [ $# -gt 0 ] && [ $1 = h ]
-    then
-		# if [ $1 = h ]
-		# then
-		export all_proxy=http://127.0.0.1:1087
-   		echo '********   open terminal http   ********'
-		# fi
-	else
-		export all_proxy=socks5://127.0.0.1:1080
-    	echo '********   open terminal socks5   ********'
-	fi
+	export ALL_PROXY=socks5://127.0.0.1:7890
 }
 
 function proxy_off() {
@@ -135,4 +125,3 @@ function proxy_off() {
     echo '********   close termianl proxy   ********'
 }
 
-proxy_on
