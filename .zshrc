@@ -110,11 +110,12 @@ alias la="ls -la"
 # ------------------------------
 function proxy_on() {
     # 配置http访问的
-    export http_proxy=http://127.0.0.1:7891
+    export http_proxy=http://127.0.0.1:7890
     # 配置https访问的
-    export https_proxy=http://127.0.0.1:7891
+    export https_proxy=http://127.0.0.1:7890
     # 配置http和https访问
-	export ALL_PROXY=socks5://127.0.0.1:7890
+	export ALL_PROXY=socks5://127.0.0.1:7891
+    echo '********   open termianl proxy   ********'
 }
 
 function proxy_off() {
@@ -124,4 +125,20 @@ function proxy_off() {
     unset all_proxy
     echo '********   close termianl proxy   ********'
 }
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/local/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
