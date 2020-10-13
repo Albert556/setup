@@ -1,876 +1,1238 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: purple; icon-glyph: magic;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: orange; icon-glyph: magic;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: deep-purple; icon-glyph: image;
-// This widget was created by Max Zeryck @mzeryck,在原来的基础上增加了更多内容显示（均来自网络收集）
-// Widgets are unique based on the name of the script.
 
-const filename = Script.name() + ".jpg"
+/*
+ * SETUP
+ * Use this section to set up the widget.
+ * ======================================
+ */
+
+// To use weather, get a free API key at openweathermap.org/appid and paste it in between the quotation marks.
+const apiKey = ""
+
+// Set the locale code. Leave blank "" to match the device's locale. You can change the hard-coded text strings in the TEXT section below.
+let locale = "en"
+
+// Set to true for fixed location, false to update location as you move around
+const lockLocation = true
+
+// The size of the widget preview in the app.
+const widgetPreview = "large"
+
+// Set to true for an image background, false for no image.
+const imageBackground = true
+
+// Set to true to reset the widget's background image.
+const forceImageUpdate = false
+
+// Set the padding around each item. Default is 10.
+const padding = 10
+
+/*
+ * LAYOUT
+ * Decide what items to show on the widget.
+ * ========================================
+ */
+
+// Set the width of the column, or set to 0 for an automatic width.
+
+// You can add items to the column: 
+// date, greeting, events, current, future, battery, text("Your text here")
+// You can also add a left, center, or right to the list. Everything after it will be aligned that way.
+
+// Make sure to always put a comma after each item.
+
+const columns = [{
+  
+  // Settings for the left column.
+  width: 0,
+  items: [
+    
+    left,
+    greeting,
+    date,
+    events,
+    
+]}, {
+
+  // Settings for the right column.
+  width: 100,
+  items: [
+    
+    left,
+    current,
+    space,
+    future,
+  
+]}]
+
+/*
+ * ITEM SETTINGS
+ * Choose how each item is displayed.
+ * ==================================
+ */  
+ 
+// DATE
+// ====
+const dateSettings = {
+
+  // If set to true, date will become smaller when events are displayed.
+  dynamicDateSize: true
+
+  // If the date is not dynamic, should it be large or small?
+  ,staticDateSize: "large"
+
+  // Determine the date format for each date type. See docs.scriptable.app/dateformatter
+  ,smallDateFormat: "EEEE, MMMM d"
+  ,largeDateLineOne: "EEEE,"
+  ,largeDateLineTwo: "MMMM d"
+}
+
+// EVENTS
+// ======
+const eventSettings = {
+
+  // How many events to show.
+  numberOfEvents: 3
+
+  // Show all-day events.
+  ,showAllDay: true
+
+  // Show tomorrow's events.
+  ,showTomorrow: true
+
+  // Can be blank "" or set to "duration" or "time" to display how long an event is.
+  ,showEventLength: "duration"
+
+  // Set which calendars for which to show events. Empty [] means all calendars.
+  ,selectCalendars: []
+
+  // Leave blank "" for no color, or specify shape (circle, rectangle) and/or side (left, right).
+  ,showCalendarColor: "rectangle left"
+  
+  // When no events remain, show a hard-coded "message", a "greeting", or "none".
+  ,noEventBehavior: "message"
+}
+
+// SUNRISE
+// =======
+const sunriseSettings = {
+  
+  // How many minutes before/after sunrise or sunset to show this element. 0 for always.
+  showWithin: 0
+}
+
+// WEATHER
+// =======
+const weatherSettings = {
+
+  // Set to imperial for Fahrenheit, or metric for Celsius
+  units: "imperial"
+  
+  // Show the location of the current weather.
+  ,showLocation: false
+  
+  // Show the text description of the current conditions.
+  ,showCondition: false
+
+  // Show today's high and low temperatures.
+  ,showHighLow: true
+
+  // Set the hour (in 24-hour time) to switch to tomorrow's weather. Set to 24 to never show it.
+  ,tomorrowShownAtHour: 20
+}
+
+/*
+ * TEXT
+ * Change the language and formatting of text displayed.
+ * =====================================================
+ */  
+ 
+// You can change the language or wording of any text in the widget.
+const localizedText = {
+  
+  // The text shown if you add a greeting item to the layout.
+  nightGreeting: "Good night."
+  ,morningGreeting: "Good morning."
+  ,afternoonGreeting: "Good afternoon."
+  ,eveningGreeting: "Good evening."
+  
+  // The text shown if you add a future weather item to the layout, or tomorrow's events.
+  ,nextHourLabel: "Next hour"
+  ,tomorrowLabel: "Tomorrow"
+
+  // Shown when noEventBehavior is set to "message".
+  ,noEventMessage: "Enjoy the rest of your day."
+  
+  // The text shown after the hours and minutes of an event duration.
+  ,durationMinute: "m"
+  ,durationHour: "h"
+     
+}
+
+// Set the font, size, and color of various text elements. Use iosfonts.com to find fonts to use. If you want to use the default iOS font, set the font name to one of the following: ultralight, light, regular, medium, semibold, bold, heavy, black, or italic.
+const textFormat = {
+  
+  // Set the default font and color.
+  defaultText: { size: 14, color: "ffffff", font: "regular" },
+  
+  // Any blank values will use the default.
+  smallDate:   { size: 17, color: "", font: "semibold" },
+  largeDate1:  { size: 30, color: "", font: "light" },
+  largeDate2:  { size: 30, color: "", font: "light" },
+  
+  greeting:    { size: 30, color: "", font: "semibold" },
+  eventLabel:  { size: 14, color: "", font: "semibold" },
+  eventTitle:  { size: 14, color: "", font: "semibold" },
+  eventTime:   { size: 14, color: "ffffffcc", font: "" },
+  noEvents:    { size: 30, color: "", font: "semibold" },
+  
+  largeTemp:   { size: 34, color: "", font: "light" },
+  smallTemp:   { size: 14, color: "", font: "" },
+  tinyTemp:    { size: 12, color: "", font: "" },
+  
+  customText:  { size: 14, color: "", font: "" },
+  
+  battery:     { size: 18, color: "", font: "medium" },
+  sunrise:     { size: 18, color: "", font: "medium" },
+}
+
+/*
+ * WIDGET CODE
+ * Be more careful editing this section. 
+ * =====================================
+ */
+
+// Make sure we have a locale value.
+if (locale == "" || locale == null) { locale = Device.locale() }
+
+// Declare the data variables.
+var eventData, locationData, sunData, weatherData
+
+// Create global constants.
+const currentDate = new Date()
 const files = FileManager.local()
-const path = files.joinPath(files.documentsDirectory(), filename)
-let widgetHello = new ListWidget(); 
-var today = new Date();
-
-var widgetInputRAW = args.widgetParameter;
-
-try {
-	widgetInputRAW.toString();
-} catch(e) {
-	widgetInputRAW = "50|#ffffff";
-}
-
-var widgetInput = widgetInputRAW.toString();
-
-var inputArr = widgetInput.split("|");
-
-// iCloud file path
-var scriptableFilePath = "/var/mobile/Library/Mobile Documents/iCloud~dk~simonbs~Scriptable/Documents/";
-var removeSpaces1 = inputArr[0].split(" "); // Remove spaces from file name
-var removeSpaces2 = removeSpaces1.join('');
-var tempPath = removeSpaces2.split(".");
-var backgroundImageURLRAW = scriptableFilePath + tempPath[0];
-
-var fm = FileManager.iCloud();
-var backgroundImageURL = scriptableFilePath + tempPath[0] + ".";
-var backgroundImageURLInput = scriptableFilePath + removeSpaces2;
-
-/* 
-For users having trouble with extensions,
-Uses user-input file path is the file is found,
-Checks for common file format extensions if the file is not found.
-对于扩展有问题的用户,
-使用用户输入的文件路径找到文件,
-如果找不到文件，则检查常见的文件格式扩展名。
-*/
-
-if (fm.fileExists(backgroundImageURLInput) == false) {
-		var fileTypes = ['png', 'jpg', 'jpeg', 'tiff', 'webp', 'gif'];
-
-		fileTypes.forEach(function(item) {
-			if (fm.fileExists((backgroundImageURL + item.toLowerCase())) == true) {
-				backgroundImageURL = backgroundImageURLRAW + "." + item.toLowerCase();
-			} else if (fm.fileExists((backgroundImageURL + item.toUpperCase())) == true) {
-				backgroundImageURL = backgroundImageURLRAW + "." + item.toUpperCase();
-			}
-		});
-} else {
-	backgroundImageURL = scriptableFilePath + removeSpaces2;
-}
-var spacing = parseInt(inputArr[1]);
 
 /*
- * WEATHER
+ * COLUMNS
  * =======
-*/
+ */
 
-// Load Your api in "".Get a free API key here: https://openweathermap.org/appid
-// 在 "" 内填写你的API—_KEY。在此处获取免费的API密钥：https://openweathermap.org/appid
-let API_WEATHER = "00edc80f169a32c73d15f51e180a5967"; 
-// add your city ID
-// 在 "" 内填入你的City ID。
-let CITY_WEATHER = "1784658";
+// Set up the widget and the main stack.
+let widget = new ListWidget()
+widget.setPadding(0, 0, 0, 0)
 
-// Set to imperial for Fahrenheit, or metric for Celsius
-// 华氏度设置为英制imperial，摄氏度设置为公制metric
-let TEMPERATURE = "metric"
+let mainStack = widget.addStack()
+mainStack.layoutHorizontally()
+mainStack.setPadding(0, 0, 0, 0)
 
-// Use "\u2103" to show degrees celcius and "\u2109" to show degrees farenheit.
-// 使用 "\u2103" 为摄氏度,使用 "\u2109" 为华氏度。
-let UNITS = "\u2103"
+// Set up alignment.
+var currentAlignment = left
 
-// Get storage.
-// 储存空间。
-var base_path = "/var/mobile/Library/Mobile Documents/iCloud~dk~simonbs~Scriptable/Documents/weather/";
-var fm = FileManager.iCloud();
+// Set up our columns.
+for (var x = 0; x < columns.length; x++) {
 
-// Fetch Image from Url.
-// 从网址获取图片。
-async function fetchimageurl(url) {
-	const request = new Request(url)
-	var res = await request.loadImage();
-	return res;
-}
-
-// Load image from local drive.
-// 从本地加载图像。
-async function fetchimagelocal(path){
-  var finalPath = base_path + path + ".png";
-  if(fm.fileExists(finalPath)==true){
-	console.log("file exists: " + finalPath);
-	return finalPath;
-  }else{
-	//throw new Error("Error file not found: " + path);
-	if(fm.fileExists(base_path)==false){
-	  console.log("Directry not exist creating one.");
-	  fm.createDirectory(base_path);
-	}
-	console.log("Downloading file: " + finalPath);
-	await downloadimg(path);
-	if(fm.fileExists(finalPath)==true){
-	  console.log("file exists after download: " + finalPath);
-	  return finalPath;
-	}else{
-	  throw new Error("Error file not found: " + path);
-	}
-  }
-}
-
-// Weather icons
-// 天气icons
-async function downloadimg(path){
-	const url = "http://a.animedlweb.ga/weather/weathers25_2.json";
-	const data = await fetchWeatherData(url);
-	var dataimg = null;
-	var name = null;
-	if(path.includes("bg")){
-	  dataimg = data.background;
-	  name = path.replace("_bg","");
-	}else{
-	  dataimg = data.icon;
-	  name = path.replace("_ico","");
-	}
-	var imgurl=null;
-	switch (name){
-	  case "01d":
-		imgurl = dataimg._01d;
-	  break;
-	  case "01n":
-		imgurl = dataimg._01n;
-	  break;
-	  case "02d":
-		imgurl = dataimg._02d;
-	  break;
-	  case "02n":
-		imgurl = dataimg._02n;
-	  break;
-	  case "03d":
-		imgurl = dataimg._03d;
-	  break;
-	  case "03n":
-		imgurl = dataimg._03n;
-	  break;
-	  case "04d":
-		imgurl = dataimg._04d;
-	  break;
-	  case "04n":
-		imgurl = dataimg._04n;
-	  break;
-	  case "09d":
-		imgurl = dataimg._09d;
-	  break;
-	  case "09n":
-		imgurl = dataimg._09n;
-	  break;
-	  case "10d":
-		imgurl = dataimg._10d;
-	  break;
-	  case "10n":
-		imgurl = dataimg._10n;
-	  break;
-	  case "11d":
-		imgurl = dataimg._11d;
-	  break;
-	  case "11n":
-		imgurl = dataimg._11n;
-	  break;
-	  case "13d":
-		imgurl = dataimg._13d;
-	  break;
-	  case "13n":
-		imgurl = dataimg._13n;
-	  break;
-	  case "50d":
-		imgurl = dataimg._50d;
-	  break;
-	  case "50n":
-		imgurl = dataimg._50n;
-	  break;
-	}
-	const image = await fetchimageurl(imgurl);
-	console.log("Downloaded Image");
-	fm.writeImage(base_path+path+".png",image);
-}
-
-// get Json weather.
-// 获取天气Json。
-async function fetchWeatherData(url) {
-  const request = new Request(url);
-  const res = await request.loadJSON();
-  return res;
-}
-
-// Get Location 
-/*Location.setAccuracyToBest();
-let curLocation = await Location.current();
-console.log(curLocation.latitude);
-console.log(curLocation.longitude);*/
-
-let wetherurl = "http://api.openweathermap.org/data/2.5/weather?id=" + CITY_WEATHER + "&APPID=" + API_WEATHER + "&units=" + TEMPERATURE;
-//"http://api.openweathermap.org/data/2.5/weather?lat=" + curLocation.latitude + "&lon=" + curLocation.longitude + "&appid=" + API_WEATHER + "&units=metric";
-//"http://api.openweathermap.org/data/2.5/weather?id=" + CITY_WEATHER + "&APPID=" + API_WEATHER + "&units=metric"
-
-const weatherJSON = await fetchWeatherData(wetherurl);
-const cityName = weatherJSON.name;
-const weatherarry = weatherJSON.weather;
-const iconData = weatherarry[0].icon;
-const weathername = weatherarry[0].main;
-const curTempObj = weatherJSON.main;
-const curTemp = curTempObj.temp;
-const highTemp = curTempObj.temp_max;
-const lowTemp = curTempObj.temp_min;
-const feel_like = curTempObj.feels_like;
-//Completed loading weather data
-
-/*
- * DATE
- * ====
-*/
-
-// Get formatted Date.
-// 获取格式化日期。
-function getformatteddate(){
-  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  return months[today.getMonth()] + " " + today.getDate()
-}
-
-// Long-form days and months.
-// 日期和月份。
-var days = ['周日','周一','周二','周三','周四','周五','周六'];
-var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-
-/*
- * GREETINGS
- * =========
-*/
-
-// Greetings arrays per time period. 
-// 每个时间段的问候语。
-var greetingsMorning = [
-'早上好.靓仔'
-];
-var greetingsNoon = [
-'中午好.靓仔'
-];
-var greetingsAfternoon = [
-'下午好.靓仔'
-];
-var greetingsEvening = [
-'晚上好.靓仔'
-];
-var greetingsNight = [
-'睡觉时间.靓仔'
-];
-var greetingsLateNight = [
-'赶紧睡觉!!!'
-];
-
-// Holiday customization.
-// 节日问候语定制。
-var holidaysByKey = {
-	// month,week,day: datetext
-	"11,4,4": "Happy Thanksgiving!"
-}
-
-var holidaysByDate = {
-	// month,date: greeting
-	"1,1": "Happy " + (today.getFullYear()).toString() + "!",
-     "10,31": "Happy Halloween!",
-	"12,25": "Merry Christmas!"
-}
-
-var holidayKey = (today.getMonth() + 1).toString() + "," +  (Math.ceil(today.getDate() / 7)).toString() + "," + (today.getDay()).toString();
-var holidayKeyDate = (today.getMonth() + 1).toString() + "," + (today.getDate()).toString();
-
-// Date Calculations.
-// 日期计算。
-var weekday = days[ today.getDay() ];
-var month = months[ today.getMonth() ];
-var date = today.getDate();
-var hour = today.getHours();
-
-// Append ordinal suffix to date.
-// 日期后缀,中文的全部改为 "日" 即可。
-function ordinalSuffix(input) {
-	if (input % 10 == 1 && date != 11) {
-		return input.toString() + "日";
-	} else if (input % 10 == 2 && date != 12) {
-		return input.toString() + "日";
-	} else if (input % 10 == 3 && date != 13) {
-		return input.toString() + "日";
-	} else {
-		return input.toString() + "日";
-	}
-}
-// Generate date string.
-// 日期生成格式顺序。
-var datefull = month + " " + ordinalSuffix(date) +", " + weekday;
-
-// Support for multiple greetings per time period.
-// 支持每个时间段的多个问候。
-function randomGreeting(greetingArray) {
-	return Math.floor(Math.random() * greetingArray.length);
-}
-var greeting = new String("Howdy.")
-if (hour < 5 && hour >= 1) { // 1am - 5am
-	greeting = greetingsLateNight[randomGreeting(greetingsLateNight)];
-} else if (hour >= 23 || hour < 1) { // 11pm - 1am
-	greeting = greetingsNight[randomGreeting(greetingsNight)];
-} else if (hour < 11) { // Before noon (5am - 12pm)
-	greeting = greetingsMorning[randomGreeting(greetingsMorning)];
-} else if (hour >=11 && hour <= 13)  { // 11am - 1pm
-	greeting = greetingsNoon[randomGreeting(greetingsNoon)];
-} else if (hour > 13 && hour <= 17) { // 1pm - 5pm
-	greeting = greetingsAfternoon[randomGreeting(greetingsAfternoon)];
-} else if (hour > 17 && hour < 23) { // 5pm - 11pm
-	greeting = greetingsEvening[randomGreeting(greetingsEvening)];
-} 
-
-// Overwrite greeting if calculated holiday
-// 如果是特定假期,则使用假期问候语
-if (holidaysByKey[holidayKey]) {
-	greeting = holidaysByKey[holidayKey];
-}
-// Overwrite all greetings if specific holiday
-// 如果是节假日,则使用假期问候语
-if (holidaysByDate[holidayKeyDate]) {
-	greeting = holidaysByDate[holidayKeyDate];
-}
-
-/*
- * BATTERY
- * =======
-*/
-
-// Battery Render
-// 电量信息
-function getBatteryLevel() {
-	const batteryLevel = Device.batteryLevel()
-	const batteryAscii = Math.round(batteryLevel * 100);
-	return batteryAscii + "%";
-}
-function renderBattery() { 
-	const batteryLevel = Device.batteryLevel(); 
-	const juice = "▓".repeat(Math.floor(batteryLevel * 10)); 
-	const used = "░".repeat(10 - juice.length);
-	const batteryAscii = " " + juice + used + " " ; 
-	return batteryAscii; 
-}
-/*
- * YEAR PROGRESS
- * =============
-*/
-
-// Year Render
-// 年进度信息
-function getYearProgress() {
-  const now = new Date()
-  const start = new Date(now.getFullYear(), 0, 1) // Start of this year
-  const end = new Date(now.getFullYear() + 1, 0, 1) // End of this year
-  const yearPassed = (now - start)
-  const yearALL = (end - start)
-  const yearPercen = (yearPassed) / (yearALL)
-  const yearProgress = Math.round(yearPercen * 100);
-  return yearProgress + "%";
-}
-function renderYear() {
-  const now = new Date()
-  const start = new Date(now.getFullYear(), 0, 1) // Start of this year
-  const end = new Date(now.getFullYear() + 1, 0, 1) // End of this year
-  const yearPassed = (now - start)
-  const yearALL = (end - start)
-  const yearPercen = (yearPassed) / (yearALL)
-  const yearAscii = yearPercen;  
-  const passed = '▓'.repeat(Math.floor(yearAscii * 10));
-  const left = '░'.repeat(10 - passed.length);
-  const yearProgress = " " + passed + left + " ";
-  return yearProgress;
-}
-
-// Try/catch for color input parameter
-// 尝试获取输入的颜色参数
-try {
-	inputArr[0].toString();
-} catch(e) {
-	throw new Error("Please long press the widget and add a parameter.");
-}
-let themeColor = new Color(inputArr[0].toString());
-if (config.runsInWidget) {
-  let widget = new ListWidget()
-  widget.backgroundImage = files.readImage(path)
+  let column = columns[x]
+  let columnStack = mainStack.addStack()
+  columnStack.layoutVertically()
   
-/* You can your own code here to add additional items to the "invisible" background of the widget.
- * 您可以在此处编写自己的代码，以将其他项目添加到小部件。
- * ---------------
- * Assemble Widget 
- * --------------- 
- *Script.setWidget(widget)
- */
- 
-// Top spacing
-// 顶部间距
- widgetHello.addSpacer(15);
-
-// Greeting label
-// 问候标签
-let hello = widgetHello.addText(" " + greeting);
-hello.font = Font.boldSystemFont(35); //font and size,字体与大小
-hello.textColor = new Color('e8ffc1'); //font color,字体颜色
-hello.textOpacity = (1); //opacity,不透明度
-hello.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
- 
-// Spacing between greeting and yearprogress
-// 问候标签与年进度行之间的间距
-widgetHello.addSpacer(5);
-
-// define horizontal stack
-// 创建一个stack，使下面组件都在同一个stack中，布局为横向布局（hStack0）
-let hStack0 = widgetHello.addStack();
-hStack0.layoutHorizontally();
-
-// Centers line
-hStack0.addSpacer(10); //Left spacing,向左对齐间距
-
-// Year icon in stack
-// 年进度图标
-const YearProgressicon = hStack0.addText("📅 全年")
-YearProgressicon.font = Font.regularSystemFont(12) //font and size,字体与大小
-YearProgressicon.textColor = new Color('#8675a9') //font color,字体颜色
-YearProgressicon.textOpacity = (1); //opacity,不透明度
-YearProgressicon.leftAlignText(); //AlignText,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Year label in stack
-// 年进度条、标签
-const YearProgress = hStack0.addText(renderYear())
-YearProgress.font = new Font('Menlo', 12) //font and size,字体与大小
-YearProgress.textColor = new Color('#8675a9') //font color,字体颜色
-YearProgress.textOpacity = (1); //opacity,不透明度
-YearProgress.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Year percent in stack
-// 年进度百分比
-const YearPercentage = hStack0.addText(getYearProgress())
-YearPercentage.font = Font.regularSystemFont(12) //font and size,字体与大小
-YearPercentage.textColor = new Color('#8675a9') //font color,字体颜色
-YearPercentage.textOpacity = (1); //opacity,不透明度
-YearPercentage.leftAlignText(); //AlignText,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Year slogan in stack
-// 年进度标语
-const YearSlogan = hStack0.addText(" 𝒚𝒐𝒖 𝒅𝒊𝒅 𝒚𝒐𝒖𝒓 𝒃𝒆𝒔𝒕 𝒕𝒐𝒅𝒂𝒚?!")
-YearSlogan.font = Font.regularSystemFont(14) //font and size,字体与大小
-YearSlogan.textColor = new Color('#8675a9') //font color,字体颜色
-YearSlogan.textOpacity = (1); //opacity,不透明度
-YearSlogan.leftAlignText(); //AlignText,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-
-// Spacing between yearprogress and battery
-// 年进度与电量行间距
-widgetHello.addSpacer(5);
-
-// define horizontal stack
-// 创建一个stack，使下面组件都在同一个stack中，布局为横向布局（hStack1）
-let hStack1 = widgetHello.addStack();
-hStack1.layoutHorizontally();
-
-// Centers line
-hStack1.addSpacer(10); //Left spacing,向左对齐间距
-
-// Battery icon in stack
-// 电量图标、标签、颜色
-const batteryicon = hStack1.addText("⚡ 电能");
-batteryicon.font = Font.regularSystemFont(12); //font and size,字体与大小
-if(Device.isCharging() && Device.batteryLevel() < 1){
-  batteryicon.textColor = new Color('008891'); //font color,充电状态字体颜色
-}
-if(Device.isCharging() && Device.batteryLevel() >= 1){
-  batteryicon.textColor = new Color('ff5f40'); //font color,满电提示字体颜色
-}
-else if(Device.batteryLevel() >= 0.8 && Device.batteryLevel() <= 1 && !Device.isCharging()){
-  batteryicon.textColor = new Color('c4fb6d'); //font color,电量充足字体颜色
-}
-else if(Device.batteryLevel() >= 0.5 && Device.batteryLevel() < 0.8 && !Device.isCharging()){
-  batteryicon.textColor = new Color('d3de32'); //font color,电量正常字体颜色
-}
-else if(Device.batteryLevel() >= 0.3 && Device.batteryLevel() < 0.5 && !Device.isCharging()){
-  batteryicon.textColor = new Color('e5df88'); //font color,电量偏低字体颜色
-}
-else if(Device.batteryLevel() >= 0.2 && Device.batteryLevel() < 0.3 && !Device.isCharging()){
-  batteryicon.textColor = new Color('ffd571'); //font color,电量低字体颜色
-}
-else if(Device.batteryLevel() >= 0 && Device.batteryLevel() < 0.2 && !Device.isCharging()){
-  batteryicon.textColor = new Color('ec0101'); //font color,电量不足字体颜色
-}
-batteryicon.textOpacity = (1); //opacity,不透明度
-batteryicon.leftAlignText(); //AlignText,对齐方式(center,left,right)
-
-// Battery Progress in stack
-// 电量进度条、颜色
-const batteryLine = hStack1.addText(renderBattery());
-batteryLine.font = new Font("Menlo", 12); //font and size,字体与大小
-if(Device.isCharging() && Device.batteryLevel() < 1){
-  batteryLine.textColor = new Color('008891'); //font color,充电状态字体颜色
-}
-if(Device.isCharging() && Device.batteryLevel() >= 1){
-  batteryLine.textColor = new Color('ff5f40'); //font color,满电提示字体颜色
-}
-else if(Device.batteryLevel() >= 0.8 && Device.batteryLevel() <= 1 && !Device.isCharging()){
-  batteryLine.textColor = new Color('c4fb6d'); //font color,电量充足字体颜色
-}
-else if(Device.batteryLevel() >= 0.5 && Device.batteryLevel() < 0.8 && !Device.isCharging()){
-  batteryLine.textColor = new Color('d3de32'); //font color,电量正常字体颜色
-}
-else if(Device.batteryLevel() >= 0.3 && Device.batteryLevel() < 0.5 && !Device.isCharging()){
-  batteryLine.textColor = new Color('e5df88'); //font color,电量偏低字体颜色
-}
-else if(Device.batteryLevel() >= 0.2 && Device.batteryLevel() < 0.3 && !Device.isCharging()){
-  batteryLine.textColor = new Color('ffd571'); //font color,电量低字体颜色
-}
-else if(Device.batteryLevel() >= 0 && Device.batteryLevel() < 0.2 && !Device.isCharging()){
-  batteryLine.textColor = new Color('ec0101'); //font color,电量不足字体颜色
-}
-batteryLine.textOpacity = (1);//opacity,不透明度
-batteryLine.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Battery Status in stack
-// 电量状态、提示语
-var battery =  getBatteryLevel();
-if(Device.isCharging() && Device.batteryLevel() < 1){
-  battery = battery + " ⚡";
-}
-if(Device.isCharging() && Device.batteryLevel() >= 1){
-  battery = battery + " ⚡ 已充满电!请拔下电源!";
-}
-else if(Device.batteryLevel() > 0.8 && Device.batteryLevel() <= 1 && !Device.isCharging()){
-  battery = battery + " 电量充足,很有安全感!";
-}
-else if(Device.batteryLevel() >= 0.7 && Device.batteryLevel() < 0.8){
-  battery = battery + " 电量充足,不出远门没有问题!";
-}
-else if(Device.batteryLevel() >= 0.6 && Device.batteryLevel() < 0.7){
-  battery = battery + " 电量还有大半呢,不用着急充电!";
-}
-else if(Device.batteryLevel() >= 0.5 && Device.batteryLevel() < 0.6){
-  battery = battery + " 电量用了不到一半,不着急充电!";
-}
-else if(Device.batteryLevel() >= 0.4 && Device.batteryLevel() < 0.5 && !Device.isCharging()){
-  battery = battery + " 电量用了一半,有时间就充电啦!";
-}
-else if(Device.batteryLevel() >= 0.4 && Device.batteryLevel() < 0.5 && Device.isCharging()){
-	battery = battery + " 正在充入电能中...";
+  // Only add padding on the first or last column.
+  columnStack.setPadding(0, x == 0 ? padding/2 : 0, 0, x == columns.length-1 ? padding/2 : 0)
+  columnStack.size = new Size(column.width,0)
+  
+  // Add the items to the column.
+  for (var i = 0; i < column.items.length; i++) {
+    await column.items[i](columnStack)
   }
-else if(Device.batteryLevel() >= 0.3 && Device.batteryLevel() < 0.4 && !Device.isCharging()){
-  battery = battery + " 电量用了大半了,尽快充电啦!";
 }
-else if(Device.batteryLevel() >= 0.3 && Device.batteryLevel() < 0.4 && Device.isCharging()){
-	battery = battery + " 正在充入电能中...";
-  }
-else if(Device.batteryLevel() >= 0.2 && Device.batteryLevel() < 0.3 && !Device.isCharging()){
-  battery = battery + " 电量很快用完,赶紧充电啦!";
-}
-else if(Device.batteryLevel() >= 0.2 && Device.batteryLevel() < 0.3 && Device.isCharging()){
-	battery = battery + " 正在快速充入电能中...";
-  }
-else if(Device.batteryLevel() >= 0.1 && Device.batteryLevel() < 0.2 && !Device.isCharging()){
-  battery = battery + " 电量就剩不到20%了,尽快充电!";
-}
-else if(Device.batteryLevel() >= 0.1 && Device.batteryLevel() < 0.2 && Device.isCharging()){
-	battery = battery + " 正在快速充入电能中...";
-  }
-else if(Device.batteryLevel() <= 0.1 && !Device.isCharging()){
-  battery = battery + " 电量将耗尽,再不充电我就关机了!";
-}
-else if(Device.batteryLevel() <= 0.1 && Device.isCharging()){
-	battery = battery + " 正在快速充入电能中...";
-}
-// Battery Status Color
-// 电量状态颜色
-let batterytext = hStack1.addText(battery);
-batterytext.font = Font.regularSystemFont(12); //font and size,字体与大小
-if(Device.isCharging() && Device.batteryLevel() < 1){
-  batterytext.textColor = new Color('008891'); //font color,充电状态字体颜色
-}
-if(Device.isCharging() && Device.batteryLevel() >= 1){
-  batterytext.textColor = new Color('ff5f40'); //font color,满电提示字体颜色
-}
-else if(Device.batteryLevel() >= 0.8 && Device.batteryLevel() <= 1 && !Device.isCharging()){
-  batterytext.textColor = new Color('c4fb6d'); //font color,电量充足字体颜色
-}
-else if(Device.batteryLevel() >= 0.5 && Device.batteryLevel() < 0.8 && !Device.isCharging()){
-  batterytext.textColor = new Color('d3de32'); //font color,电量正常字体颜色
-}
-else if(Device.batteryLevel() >= 0.3 && Device.batteryLevel() < 0.5 && !Device.isCharging()){
-  batterytext.textColor = new Color('e5df88'); //font color,电量偏低字体颜色
-}
-else if(Device.batteryLevel() >= 0.2 && Device.batteryLevel() < 0.3 && !Device.isCharging()){
-  batterytext.textColor = new Color('ffd571'); //font color,电量低字体颜色
-}
-else if(Device.batteryLevel() >= 0 && Device.batteryLevel() < 0.2 && !Device.isCharging()){
-  batterytext.textColor = new Color('ec0101'); //font color,电量不足字体颜色
-}
-batterytext.textOpacity = (1); //opacity,不透明度
-batterytext.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Spacing between battery and summary
-// 电量与天气、日期之间的间距
-widgetHello.addSpacer(5);
-
-// define horizontal stack
-// 创建一个stack，使下面组件都在同一个stack中，布局为横向布局（hStack2）
-let hStack2 = widgetHello.addStack();
-hStack2.layoutHorizontally();
-
-// Centers line
-hStack2.addSpacer(10);//Left spacing,向左对齐间距
-
-// Widget feel temp
-// 天气简报（最高温度与最低温度）
-const feeltext =hStack2.addText(weathername + " 𝙩𝙤𝙙𝙖𝙮" + "." + " 𝙄𝙩 𝙛𝙚𝙚𝙡𝙨 𝙡𝙞𝙠𝙚 " + Math.round(feel_like) + UNITS + ";" + " 𝙩𝙝𝙚 𝙝𝙞𝙜𝙝 𝙬𝙞𝙡𝙡 𝙗𝙚 " + Math.round(highTemp) + UNITS);
-feeltext.font = Font.regularSystemFont(12); //font and size,字体与大小
-feeltext.textColor = new Color('#51adcf'); //font color,字体颜色
-feeltext.textOpacity = (0.7); //opacity,不透明度
-feeltext.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-
-// define horizontal stack
-// 创建一个stack，使下面组件都在同一个stack中，布局为横向布局（hStack2）
-let hStack3 = widgetHello.addStack();
-hStack3.layoutHorizontally();
-
-// Centers line
-hStack3.addSpacer(10);//Left spacing,向左对齐间距
-
-// Date label
-// 日期
-const datetext = hStack3.addText(datefull + "  ");
-datetext.font = Font.regularSystemFont(30); //font and size,字体与大小
-datetext.textColor = new Color('#ffffff'); //font color,字体颜色
-datetext.textOpacity = (0.8); //opacity,不透明度
-datetext.leftAlignText(); //Align,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Weather icons in stack
-// 天气图标
-var img = Image.fromFile(await fetchimagelocal(iconData + "_ico"));
-let widgetimg = hStack3.addImage(img); 
-widgetimg.imageSize = new Size(40, 40); //image size,图像大小
-widgetimg.leftAlignImage(); //Align,对齐方式(center,left,right)
-
-// tempeture label in stack
-// 温度
-let temptext = hStack3.addText('\xa0\xa0'+ Math.round(curTemp).toString()+UNITS);
-temptext.font = Font.boldSystemFont(30); //font and size,字体与大小
-temptext.textColor = new Color('#0278ae'); //font color,字体颜色
-temptext.textOpacity = (1); //opacity,不透明度
-temptext.leftAlignText(); //AlignText,对齐方式(center,left,right)！在同一个stack内的对齐方式不能单独设置，只能调整向左对齐间距大小
-
-// Bottom Spacer
-// 底部间距
- widgetHello.addSpacer();
- widgetHello.setPadding( 0, 0, 0, 0)
- widgetHello.backgroundImage = widget.backgroundImage
- Script.setWidget(widgetHello)
-
-//Script.complete()
-
 
 /*
- * The code below this comment is used to set up the invisible widget.
- * 以下的代码用于设置小组件的 "透明背景"
- * ===================================================================
+ * BACKGROUND DISPLAY
+ * ==================
  */
+
+// If it's an image background, display it.
+if (imageBackground) {
+  
+  // Determine if our image exists and when it was saved.
+  const path = files.joinPath(files.documentsDirectory(), "weather-cal-image")
+  const exists = files.fileExists(path)
+  
+  // If it exists and an update isn't forced, use the cache.
+  if (exists && (config.runsInWidget || !forceImageUpdate)) {
+    widget.backgroundImage = files.readImage(path)
+  
+  // If it's missing when running in the widget, use a gray background.
+  } else if (!exists && config.runsInWidget) {
+      widget.backgroundColor = Color.gray() 
+    
+  // But if we're running in app, prompt the user for the image.
+  } else {
+      const img = await Photos.fromLibrary()
+      widget.backgroundImage = img
+      files.writeImage(path, img)
+  }
+    
+// If it's not an image background, show the gradient.
 } else {
+  let gradient = new LinearGradient()
+  let gradientSettings = await setupGradient()
   
-  // Determine if user has taken the screenshot.
-  // 确定用户是否有了屏幕截图。
-  var message
-  message = "开始之前，请返回主屏幕并长按进入编辑模式。滑动到最右边的空白页并截图。"
-  let exitOptions = ["继续","退出以截图"]
-  let shouldExit = await generateAlert(message,exitOptions)
-  if (shouldExit) return
+  gradient.colors = gradientSettings.color()
+  gradient.locations = gradientSettings.position()
   
-  // Get screenshot and determine phone size.
-  // 获取屏幕截图并确定手机大小。
-  let img = await Photos.fromLibrary()
-  let height = img.size.height
-  let phone = phoneSizes()[height]
-  if (!phone) {
-    message = "您似乎选择了非iPhone屏幕截图的图像，或者不支持您的iPhone。请使用其他图像再试一次。"
-    await generateAlert(message,["OK"])
+  widget.backgroundGradient = gradient
+}
+
+// Finish the widget and show a preview.
+Script.setWidget(widget)
+if (widgetPreview == "small") { widget.presentSmall() }
+else if (widgetPreview == "medium") { widget.presentMedium() }
+else if (widgetPreview == "large") { widget.presentLarge() }
+Script.complete()
+
+/*
+ * LAYOUT FUNCTIONS
+ * These functions manage spacing and alignment.
+ * =============================================
+ */
+
+// Create an aligned stack to add content to.
+function align(column) {
+  
+  // Add the containing stack to the column.
+  let alignmentStack = column.addStack()
+  alignmentStack.layoutHorizontally()
+  
+  // Get the correct stack from the alignment function.
+  let returnStack = currentAlignment(alignmentStack)
+  returnStack.layoutVertically()
+  return returnStack
+}
+
+// Create a right-aligned stack.
+function alignRight(alignmentStack) {
+  alignmentStack.addSpacer()
+  let returnStack = alignmentStack.addStack()
+  return returnStack
+}
+
+// Create a left-aligned stack.
+function alignLeft(alignmentStack) {
+  let returnStack = alignmentStack.addStack()
+  alignmentStack.addSpacer()
+  return returnStack
+}
+
+// Create a center-aligned stack.
+function alignCenter(alignmentStack) {
+  alignmentStack.addSpacer()
+  let returnStack = alignmentStack.addStack()
+  alignmentStack.addSpacer()
+  return returnStack
+}
+
+// This function adds a space, with an optional amount.
+function space(input = null) { 
+  
+  // This function adds a spacer with the input width.
+  function spacer(column) {
+  
+    // If the input is null or zero, add a flexible spacer.
+    if (!input || input == 0) { column.addSpacer() }
+    
+    // Otherwise, add a space with the specified length.
+    else { column.addSpacer(input) }
+  }
+  
+  // If there's no input or it's a number, it's being called in the column declaration.
+  if (!input || typeof input == "number") { return spacer }
+  
+  // Otherwise, it's being called in the column generator.
+  else { input.addSpacer() }
+}
+
+// Change the current alignment to right.
+function right(x) { currentAlignment = alignRight }
+
+// Change the current alignment to left.
+function left(x) { currentAlignment = alignLeft }
+
+// Change the current alignment to center.
+function center(x) { currentAlignment = alignCenter }
+
+/*
+ * SETUP FUNCTIONS
+ * These functions prepare data needed for items.
+ * ==============================================
+ */
+
+// Set up the eventData object.
+async function setupEvents() {
+  
+  eventData = {}
+  const calendars = eventSettings.selectCalendars
+  const numberOfEvents = eventSettings.numberOfEvents
+
+  // Function to determine if an event should be shown.
+  function shouldShowEvent(event) {
+  
+    // If events are filtered and the calendar isn't in the selected calendars, return false.
+    if (calendars.length && !calendars.includes(event.calendar.title)) { return false }
+
+    // Hack to remove canceled Office 365 events.
+    if (event.title.startsWith("Canceled:")) { return false }
+
+    // If it's an all-day event, only show if the setting is active.
+    if (event.isAllDay) { return eventSettings.showAllDay }
+
+    // Otherwise, return the event if it's in the future.
+    return (event.startDate.getTime() > currentDate.getTime())
+  }
+  
+  // Determine which events to show, and how many.
+  const todayEvents = await CalendarEvent.today([])
+  let shownEvents = 0
+  let futureEvents = []
+  
+  for (const event of todayEvents) {
+    if (shownEvents == numberOfEvents) { break }
+    if (shouldShowEvent(event)) {
+      futureEvents.push(event)
+      shownEvents++
+    }
+  }
+
+  // If there's room and we need to, show tomorrow's events.
+  let multipleTomorrowEvents = false
+  if (eventSettings.showTomorrow && shownEvents < numberOfEvents) {
+  
+    const tomorrowEvents = await CalendarEvent.tomorrow([])
+    for (const event of tomorrowEvents) {
+      if (shownEvents == numberOfEvents) { break }
+      if (shouldShowEvent(event)) {
+      
+        // Add the tomorrow label prior to the first tomorrow event.
+        if (!multipleTomorrowEvents) { 
+          
+          // The tomorrow label is pretending to be an event.
+          futureEvents.push({ title: localizedText.tomorrowLabel.toUpperCase(), isLabel: true })
+          multipleTomorrowEvents = true
+        }
+        
+        // Show the tomorrow event and increment the counter.
+        futureEvents.push(event)
+        shownEvents++
+      }
+    }
+  }
+  
+  // Store the future events, and whether or not any events are displayed.
+  eventData.futureEvents = futureEvents
+  eventData.eventsAreVisible = (futureEvents.length > 0) && (eventSettings.numberOfEvents > 0)
+}
+
+// Set up the gradient for the widget background.
+async function setupGradient() {
+  
+  // Requirements: sunrise
+  if (!sunData) { await setupSunrise() }
+
+  let gradient = {
+    dawn: {
+      color() { return [new Color("142C52"), new Color("1B416F"), new Color("62668B")] },
+      position() { return [0, 0.5, 1] },
+    },
+
+    sunrise: {
+      color() { return [new Color("274875"), new Color("766f8d"), new Color("f0b35e")] },
+      position() { return [0, 0.8, 1.5] },
+    },
+
+    midday: {
+      color() { return [new Color("3a8cc1"), new Color("90c0df")] },
+      position() { return [0, 1] },
+    },
+
+    noon: {
+      color() { return [new Color("b2d0e1"), new Color("80B5DB"), new Color("3a8cc1")] },
+      position() { return [-0.2, 0.2, 1.5] },
+    },
+
+    sunset: {
+      color() { return [new Color("32327A"), new Color("662E55"), new Color("7C2F43")] },
+      position() { return [0.1, 0.9, 1.2] },
+    },
+
+    twilight: {
+      color() { return [new Color("021033"), new Color("16296b"), new Color("414791")] },
+      position() { return [0, 0.5, 1] },
+    },
+
+    night: {
+      color() { return [new Color("16296b"), new Color("021033"), new Color("021033"), new Color("113245")] },
+      position() { return [-0.5, 0.2, 0.5, 1] },
+    },
+  }
+
+  const sunrise = sunData.sunrise
+  const sunset = sunData.sunset
+
+  // Use sunrise or sunset if we're within 30min of it.
+  if (closeTo(sunrise)<=15) { return gradient.sunrise }
+  if (closeTo(sunset)<=15) { return gradient.sunset }
+
+  // In the 30min before/after, use dawn/twilight.
+  if (closeTo(sunrise)<=45 && utcTime < sunrise) { return gradient.dawn }
+  if (closeTo(sunset)<=45 && utcTime > sunset) { return gradient.twilight }
+
+  // Otherwise, if it's night, return night.
+  if (isNight(currentDate)) { return gradient.night }
+
+  // If it's around noon, the sun is high in the sky.
+  if (currentDate.getHours() == 12) { return gradient.noon }
+
+  // Otherwise, return the "typical" theme.
+  return gradient.midday
+}
+
+// Set up the locationData object.
+async function setupLocation() {
+
+  locationData = {}
+  const locationPath = files.joinPath(files.documentsDirectory(), "weather-cal-loc")
+
+  // If our location is unlocked or cache doesn't exist, ask iOS for location.
+  var readLocationFromFile = false
+  if (!lockLocation || !files.fileExists(locationPath)) {
+    try {
+      const location = await Location.current()
+      const geocode = await Location.reverseGeocode(location.latitude, location.longitude, locale)
+      locationData.latitude = location.latitude
+      locationData.longitude = location.longitude
+      locationData.locality = geocode[0].locality
+      files.writeString(locationPath, location.latitude + "|" + location.longitude + "|" + locationData.locality)
+    
+    } catch(e) {
+      // If we fail in unlocked mode, read it from the cache.
+      if (!lockLocation) { readLocationFromFile = true }
+      
+      // We can't recover if we fail on first run in locked mode.
+      else { return }
+    }
+  }
+  
+  // If our location is locked or we need to read from file, do it.
+  if (lockLocation || readLocationFromFile) {
+    const locationStr = files.readString(locationPath).split("|")
+    locationData.latitude = locationStr[0]
+    locationData.longitude = locationStr[1]
+    locationData.locality = locationStr[2]
+  }
+}
+
+// Set up the sunData object.
+async function setupSunrise() {
+
+  // Requirements: location
+  if (!locationData) { await setupLocation() }
+
+  // Set up the sunrise/sunset cache.
+  const sunCachePath = files.joinPath(files.documentsDirectory(), "weather-cal-sun")
+  const sunCacheExists = files.fileExists(sunCachePath)
+  const sunCacheDate = sunCacheExists ? files.modificationDate(sunCachePath) : 0
+  let sunDataRaw, afterSunset
+
+  // If cache exists and was created today, use cached data.
+  if (sunCacheExists && sameDay(currentDate, sunCacheDate)) {
+    const sunCache = files.readString(sunCachePath)
+    sunDataRaw = JSON.parse(sunCache)
+    
+    // Determine if it's after sunset.
+    const sunsetDate = new Date(sunDataRaw.results.sunset)
+    afterSunset = currentDate.getTime() - sunsetDate.getTime() > (45 * 60 * 1000)
+  }
+  
+  // If we don't have data yet, or we need to get tomorrow's data, get it from the server.
+  if (!sunDataRaw || afterSunset) {
+    let tomorrowDate = new Date()
+    tomorrowDate.setDate(currentDate.getDate() + 1)
+    const dateToUse = afterSunset ? tomorrowDate : currentDate
+    const sunReq = "https://api.sunrise-sunset.org/json?lat=" + locationData.latitude + "&lng=" + locationData.longitude + "&formatted=0&date=" + dateToUse.getFullYear() + "-" + (dateToUse.getMonth()+1) + "-" + dateToUse.getDate()
+    sunDataRaw = await new Request(sunReq).loadJSON()
+    files.writeString(sunCachePath, JSON.stringify(sunDataRaw))
+  }
+
+  // Store the timing values.
+  sunData = {}
+  sunData.sunrise = new Date(sunDataRaw.results.sunrise).getTime()
+  sunData.sunset = new Date(sunDataRaw.results.sunset).getTime()
+}
+
+// Set up the weatherData object.
+async function setupWeather() {
+
+  // Requirements: location
+  if (!locationData) { await setupLocation() }
+
+  // Set up the cache.
+  const cachePath = files.joinPath(files.documentsDirectory(), "weather-cal-cache")
+  const cacheExists = files.fileExists(cachePath)
+  const cacheDate = cacheExists ? files.modificationDate(cachePath) : 0
+  var weatherDataRaw
+
+  // If cache exists and it's been less than 60 seconds since last request, use cached data.
+  if (cacheExists && (currentDate.getTime() - cacheDate.getTime()) < 60000) {
+    const cache = files.readString(cachePath)
+    weatherDataRaw = JSON.parse(cache)
+
+  // Otherwise, use the API to get new weather data.
+  } else {
+    const weatherReq = "https://api.openweathermap.org/data/2.5/onecall?lat=" + locationData.latitude + "&lon=" + locationData.longitude + "&exclude=minutely,alerts&units=" + weatherSettings.units + "&lang=" + locale + "&appid=" + apiKey
+    weatherDataRaw = await new Request(weatherReq).loadJSON()
+    files.writeString(cachePath, JSON.stringify(weatherDataRaw))
+  }
+
+  // Store the weather values.
+  weatherData = {}
+  weatherData.currentTemp = weatherDataRaw.current.temp
+  weatherData.currentCondition = weatherDataRaw.current.weather[0].id
+  weatherData.currentDescription = weatherDataRaw.current.weather[0].main
+  weatherData.todayHigh = weatherDataRaw.daily[0].temp.max
+  weatherData.todayLow = weatherDataRaw.daily[0].temp.min
+
+  weatherData.nextHourTemp = weatherDataRaw.hourly[1].temp
+  weatherData.nextHourCondition = weatherDataRaw.hourly[1].weather[0].id
+
+  weatherData.tomorrowHigh = weatherDataRaw.daily[1].temp.max
+  weatherData.tomorrowLow = weatherDataRaw.daily[1].temp.min
+  weatherData.tomorrowCondition = weatherDataRaw.daily[1].weather[0].id
+}
+
+/*
+ * WIDGET ITEMS
+ * These functions display items on the widget.
+ * ============================================
+ */
+
+// Display the date on the widget.
+async function date(column) {
+
+  // Requirements: events (if dynamicDateSize is enabled)
+  if (!eventData && dateSettings.dynamicDateSize) { await setupEvents() }
+
+  // Set up the date formatter and set its locale.
+  let df = new DateFormatter()
+  df.locale = locale
+  
+  // Show small if it's hard coded, or if it's dynamic and events are visible.
+  if (dateSettings.staticDateSize == "small" || (dateSettings.dynamicDateSize && eventData.eventsAreVisible)) {
+    let dateStack = align(column)
+    dateStack.setPadding(padding, padding, padding, padding)
+
+    df.dateFormat = dateSettings.smallDateFormat
+    let dateText = provideText(df.string(currentDate), dateStack, textFormat.smallDate)
+    
+  // Otherwise, show the large date.
+  } else {
+    let dateOneStack = align(column)
+    df.dateFormat = dateSettings.largeDateLineOne
+    let dateOne = provideText(df.string(currentDate), dateOneStack, textFormat.largeDate1)
+    dateOneStack.setPadding(padding, padding, 0, padding)
+    
+    let dateTwoStack = align(column)
+    df.dateFormat = dateSettings.largeDateLineTwo
+    let dateTwo = provideText(df.string(currentDate), dateTwoStack, textFormat.largeDate2)
+    dateTwoStack.setPadding(0, padding, padding, 10)
+  }
+}
+
+// Display a time-based greeting on the widget.
+async function greeting(column) {
+
+  // This function makes a greeting based on the time of day.
+  function makeGreeting() {
+    const hour = currentDate.getHours()
+    if (hour    < 5)  { return localizedText.nightGreeting }
+    if (hour    < 12) { return localizedText.morningGreeting }
+    if (hour-12 < 5)  { return localizedText.afternoonGreeting }
+    if (hour-12 < 10) { return localizedText.eveningGreeting }
+    return localizedText.nightGreeting
+  }
+  
+  // Set up the greeting.
+  let greetingStack = align(column)
+  let greeting = provideText(makeGreeting(), greetingStack, textFormat.greeting)
+  greetingStack.setPadding(padding, padding, padding, padding)
+}
+
+// Display events on the widget.
+async function events(column) {
+
+  // Requirements: events
+  if (!eventData) { await setupEvents() }
+
+  // If no events are visible, figure out what to do.
+  if (!eventData.eventsAreVisible) { 
+    const display = eventSettings.noEventBehavior
+    
+    // If it's a greeting, let the greeting function handle it.
+    if (display == "greeting") { return await greeting(column) }
+    
+    // If it's a message, get the localized text.
+    if (display == "message" && localizedText.noEventMessage.length) {
+      const messageStack = align(column)
+      messageStack.setPadding(padding, padding, padding, padding)
+      provideText(localizedText.noEventMessage, messageStack, textFormat.noEvents)
+    }
+    
+    // Whether or not we displayed something, return here.
     return
   }
   
-  // Prompt for widget size and position.
-  // 提示窗口小部件的大小和位置。
-  message = "您想要创建什么尺寸的小部件？"
-  let sizes = ["Small","Medium","Large"]
-  let size = await generateAlert(message,sizes)
-  let widgetSize = sizes[size]
+  // Set up the event stack.
+  let eventStack = column.addStack()
+  eventStack.layoutVertically()
+  const todaySeconds = Math.floor(currentDate.getTime() / 1000) - 978307200
+  eventStack.url = 'calshow:' + todaySeconds
   
-  message = "您想它在什么位置？"
-  message += (height == 1136 ? " (请注意，您的设备仅支持两行小部件，因此中间和底部选项相同。)" : "")
-  
-  // Determine image crop based on phone size.
-  // 根据手机大小确定图像裁剪。
-  let crop = { w: "", h: "", x: "", y: "" }
-  if (widgetSize == "Small") {
-    crop.w = phone.small
-    crop.h = phone.small
-    let positions = ["Top left","Top right","Middle left","Middle right","Bottom left","Bottom right"]
-    let position = await generateAlert(message,positions)
-    
-    // Convert the two words into two keys for the phone size dictionary.
-    let keys = positions[position].toLowerCase().split(' ')
-    crop.y = phone[keys[0]]
-    crop.x = phone[keys[1]]
-    
-  } else if (widgetSize == "Medium") {
-    crop.w = phone.medium
-    crop.h = phone.small
-    
-    // Medium and large widgets have a fixed x-value.
-    crop.x = phone.left
-    let positions = ["Top","Middle","Bottom"]
-    let position = await generateAlert(message,positions)
-    let key = positions[position].toLowerCase()
-    crop.y = phone[key]
-    
-  } else if(widgetSize == "Large") {
-    crop.w = phone.medium
-    crop.h = phone.large
-    crop.x = phone.left
-    let positions = ["Top","Bottom"]
-    let position = await generateAlert(message,positions)
-    
-    // Large widgets at the bottom have the "middle" y-value.
-    crop.y = position ? phone.middle : phone.top
+  // If there are no events and we have a message, show it and return.
+  if (!eventData.eventsAreVisible && localizedText.noEventMessage.length) {
+    let message = provideText(localizedText.noEventMessage, eventStack, textFormat.noEvents)
+    eventStack.setPadding(padding, padding, padding, padding)
+    return
   }
   
-  // Crop image and finalize the widget.
-  // 裁剪图像并完成小部件。
-  let imgCrop = cropImage(img, new Rect(crop.x,crop.y,crop.w,crop.h))
+  // If we're not showing the message, don't pad the event stack.
+  eventStack.setPadding(0, 0, 0, 0)
   
-  message = "您的小部件背景已准备就绪。您想在Scriptable的小部件中使用它还是导出图像？"
-  const exportPhotoOptions = ["在Scriptable中使用","导出图像"]
-  const exportPhoto = await generateAlert(message,exportPhotoOptions)
+  // Add each event to the stack.
+  var currentStack = eventStack
+  const futureEvents = eventData.futureEvents
+  for (let i = 0; i < futureEvents.length; i++) {
+    
+    const event = futureEvents[i]
+    const bottomPadding = (padding-10 < 0) ? 0 : padding-10
+    
+    // If it's the tomorrow label, change to the tomorrow stack.
+    if (event.isLabel) {
+      let tomorrowStack = column.addStack()
+      tomorrowStack.layoutVertically()
+      const tomorrowSeconds = Math.floor(currentDate.getTime() / 1000) - 978220800
+      tomorrowStack.url = 'calshow:' + tomorrowSeconds
+      currentStack = tomorrowStack
+      
+      // Mimic the formatting of an event title, mostly.
+      const eventLabelStack = align(currentStack)
+      const eventLabel = provideText(event.title, eventLabelStack, textFormat.eventLabel)
+      eventLabelStack.setPadding(i==0 ? padding : padding/2, padding, padding/2, padding)
+      continue
+    }
+    
+    const titleStack = align(currentStack)
+    titleStack.layoutHorizontally()
+    const showCalendarColor = eventSettings.showCalendarColor
+    const colorShape = showCalendarColor.includes("circle") ? "circle" : "rectangle"
+    
+    // If we're showing a color, and it's not shown on the right, add it to the left.
+    if (showCalendarColor.length && !showCalendarColor.includes("right")) {
+      let colorItemText = provideTextSymbol(colorShape) + " "
+      let colorItem = provideText(colorItemText, titleStack, textFormat.eventTitle)
+      colorItem.textColor = event.calendar.color
+    }
+
+    const title = provideText(event.title.trim(), titleStack, textFormat.eventTitle)
+    titleStack.setPadding(i==0 ? padding : padding/2, padding, event.isAllDay ? padding/2 : padding/10, padding)
+    
+    // If we're showing a color on the right, show it.
+    if (showCalendarColor.length && showCalendarColor.includes("right")) {
+      let colorItemText = " " + provideTextSymbol(colorShape)
+      let colorItem = provideText(colorItemText, titleStack, textFormat.eventTitle)
+      colorItem.textColor = event.calendar.color
+    }
   
-  if (exportPhoto) {
-    Photos.save(imgCrop)
+    // If there are too many events, limit the line height.
+    if (futureEvents.length >= 3) { title.lineLimit = 1 }
+
+    // If it's an all-day event, we don't need a time.
+    if (event.isAllDay) { continue }
+    
+    // Format the time information.
+    let timeText = formatTime(event.startDate)
+    
+    // If we show the length as time, add an en dash and the time.
+    if (eventSettings.showEventLength == "time") { 
+      timeText += "–" + formatTime(event.endDate) 
+      
+    // If we should it as a duration, add the minutes.
+    } else if (eventSettings.showEventLength == "duration") {
+      const duration = (event.endDate.getTime() - event.startDate.getTime()) / (1000*60)
+      const hours = Math.floor(duration/60)
+      const minutes = Math.floor(duration % 60)
+      const hourText = hours>0 ? hours + localizedText.durationHour : ""
+      const minuteText = minutes>0 ? minutes + localizedText.durationMinute : ""
+      const showSpace = hourText.length && minuteText.length
+      timeText += " \u2022 " + hourText + (showSpace ? " " : "") + minuteText
+    }
+
+    const timeStack = align(currentStack)
+    const time = provideText(timeText, timeStack, textFormat.eventTime)
+    timeStack.setPadding(0, padding, i==futureEvents.length-1 ? padding : padding/2, padding)
+  }
+}
+
+// Display the current weather.
+async function current(column) {
+
+  // Requirements: weather and sunrise
+  if (!weatherData) { await setupWeather() }
+  if (!sunData) { await setupSunrise() }
+
+  // Set up the current weather stack.
+  let currentWeatherStack = column.addStack()
+  currentWeatherStack.layoutVertically()
+  currentWeatherStack.setPadding(0, 0, 0, 0)
+  currentWeatherStack.url = "https://weather.com/weather/today/l/" + locationData.latitude + "," + locationData.longitude
+  
+  // If we're showing the location, add it.
+  if (weatherSettings.showLocation) {
+    let locationTextStack = align(currentWeatherStack)
+    let locationText = provideText(locationData.locality, locationTextStack, textFormat.smallTemp)
+    locationTextStack.setPadding(padding, padding, padding/2, padding)
+  }
+
+  // Show the current condition symbol.
+  let mainConditionStack = align(currentWeatherStack)
+  let mainCondition = mainConditionStack.addImage(provideConditionSymbol(weatherData.currentCondition,isNight(currentDate)))
+  mainCondition.imageSize = new Size(22,22)
+  mainConditionStack.setPadding(weatherSettings.showLocation ? 0 : padding, padding, 0, padding)
+  
+  // If we're showing the description, add it.
+  if (weatherSettings.showCondition) {
+    let conditionTextStack = align(currentWeatherStack)
+    let conditionText = provideText(weatherData.currentDescription, conditionTextStack, textFormat.smallTemp)
+    conditionTextStack.setPadding(padding/2, padding, 0, padding)
+  }
+
+  // Show the current temperature.
+  const tempStack = align(currentWeatherStack)
+  tempStack.setPadding(0, padding, 0, padding)
+  const tempText = Math.round(weatherData.currentTemp) + "°"
+  const temp = provideText(tempText, tempStack, textFormat.largeTemp)
+  
+  // If we're not showing the high and low, end it here.
+  if (!weatherSettings.showHighLow) { return }
+
+  // Show the temp bar and high/low values.
+  let tempBarStack = align(currentWeatherStack)
+  tempBarStack.layoutVertically()
+  tempBarStack.setPadding(0, padding, padding/2, padding)
+  
+  let tempBar = drawTempBar()
+  let tempBarImage = tempBarStack.addImage(tempBar)
+  tempBarImage.size = new Size(50,0)
+  
+  tempBarStack.addSpacer(1)
+  
+  let highLowStack = tempBarStack.addStack()
+  highLowStack.layoutHorizontally()
+  
+  const mainLowText = Math.round(weatherData.todayLow).toString()
+  const mainLow = provideText(mainLowText, highLowStack, textFormat.tinyTemp)
+  highLowStack.addSpacer()
+  const mainHighText = Math.round(weatherData.todayHigh).toString()
+  const mainHigh = provideText(mainHighText, highLowStack, textFormat.tinyTemp)
+  
+  tempBarStack.size = new Size(70,30)
+}
+
+// Display upcoming weather.
+async function future(column) {
+
+  // Requirements: weather and sunrise
+  if (!weatherData) { await setupWeather() }
+  if (!sunData) { await setupSunrise() }
+
+  // Set up the future weather stack.
+  let futureWeatherStack = column.addStack()
+  futureWeatherStack.layoutVertically()
+  futureWeatherStack.setPadding(0, 0, 0, 0)
+  futureWeatherStack.url = "https://weather.com/weather/tenday/l/" + locationData.latitude + "," + locationData.longitude
+
+  // Determine if we should show the next hour.
+  const showNextHour = (currentDate.getHours() < weatherSettings.tomorrowShownAtHour)
+  
+  // Set the label value.
+  const subLabelStack = align(futureWeatherStack)
+  const subLabelText = showNextHour ? localizedText.nextHourLabel : localizedText.tomorrowLabel
+  const subLabel = provideText(subLabelText, subLabelStack, textFormat.smallTemp)
+  subLabelStack.setPadding(0, padding, padding/4, padding)
+  
+  // Set up the sub condition stack.
+  let subConditionStack = align(futureWeatherStack)
+  subConditionStack.layoutHorizontally()
+  subConditionStack.centerAlignContent()
+  subConditionStack.setPadding(0, padding, padding, padding)
+  
+  // Determine if it will be night in the next hour.
+  var nightCondition
+  if (showNextHour) {
+    const addHour = currentDate.getTime() + (60*60*1000)
+    const newDate = new Date(addHour)
+    nightCondition = isNight(newDate)
   } else {
-    files.writeImage(path,imgCrop)
+    nightCondition = false 
   }
   
-  Script.complete()
+  let subCondition = subConditionStack.addImage(provideConditionSymbol(showNextHour ? weatherData.nextHourCondition : weatherData.tomorrowCondition,nightCondition))
+  const subConditionSize = showNextHour ? 14 : 18
+  subCondition.imageSize = new Size(subConditionSize, subConditionSize)
+  subConditionStack.addSpacer(5)
+  
+  // The next part of the display changes significantly for next hour vs tomorrow.
+  if (showNextHour) {
+    const subTempText = Math.round(weatherData.nextHourTemp) + "°"
+    const subTemp = provideText(subTempText, subConditionStack, textFormat.smallTemp)
+    
+  } else {
+    let tomorrowLine = subConditionStack.addImage(drawVerticalLine(new Color("ffffff", 0.5), 20))
+    tomorrowLine.imageSize = new Size(3,28)
+    subConditionStack.addSpacer(5)
+    let tomorrowStack = subConditionStack.addStack()
+    tomorrowStack.layoutVertically()
+    
+    const tomorrowHighText = Math.round(weatherData.tomorrowHigh) + ""
+    const tomorrowHigh = provideText(tomorrowHighText, tomorrowStack, textFormat.tinyTemp)
+    tomorrowStack.addSpacer(4)
+    const tomorrowLowText = Math.round(weatherData.tomorrowLow) + ""
+    const tomorrowLow = provideText(tomorrowLowText, tomorrowStack, textFormat.tinyTemp)
+  }
 }
 
-// Generate an alert with the provided array of options.
-// 使用提供的选项数组生成提示
-async function generateAlert(message,options) {
+// Return a text-creation function.
+function text(input = null) {
+
+  function displayText(column) {
   
-  let alert = new Alert()
-  alert.message = message
+    // Don't do anything if the input is blank.
+    if (!input || input == "") { return }
   
-  for (const option of options) {
-    alert.addAction(option)
+    // Otherwise, add the text.
+    const textStack = align(column)
+    textStack.setPadding(padding, padding, padding, padding)
+    const textDisplay = provideText(input, textStack, textFormat.customText)
+  }
+  return displayText
+}
+
+// Add a battery element to the widget; consisting of a battery icon and percentage.
+async function battery(column) {
+
+  // Get battery level via Scriptable function and format it in a convenient way
+  function getBatteryLevel() {
+  
+    const batteryLevel = Device.batteryLevel()
+    const batteryPercentage = `${Math.round(batteryLevel * 100)}%`
+
+    return batteryPercentage
   }
   
-  let response = await alert.presentAlert()
-  return response
+  const batteryLevel = Device.batteryLevel()
+  
+  // Set up the battery level item
+  let batteryStack = align(column)
+  batteryStack.layoutHorizontally()
+  batteryStack.centerAlignContent()
+
+  let batteryIcon = batteryStack.addImage(provideBatteryIcon())
+  batteryIcon.imageSize = new Size(30,30)
+  
+  // Change the battery icon to red if battery level is <= 20 to match system behavior
+  if ( Math.round(batteryLevel * 100) > 20 || Device.isCharging() ) {
+
+    batteryIcon.tintColor = new Color(textFormat.battery.color || textFormat.defaultText.color)
+
+  } else {
+
+    batteryIcon.tintColor = Color.red()
+
+  }
+
+  batteryStack.addSpacer(padding * 0.8)
+
+  // Display the battery status
+  let batteryInfo = provideText(getBatteryLevel(), batteryStack, textFormat.battery)
+
+  batteryStack.setPadding(padding, padding, padding, padding)
+
 }
 
-// Crop an image into the specified rect.
-// 将图像裁剪为指定的矩形。
-function cropImage(img,rect) {
-   
+// Show the sunrise or sunset time.
+async function sunrise(column) {
+  
+  // Requirements: sunrise
+  if (!sunData) { await setupSunrise() }
+  
+  const sunrise = sunData.sunrise
+  const sunset = sunData.sunset
+  const showWithin = sunriseSettings.showWithin
+  const closeToSunrise = closeTo(sunrise) <= showWithin
+  const closeToSunset = closeTo(sunset) <= showWithin
+
+  // If we only show sometimes and we're not close, return.
+  if (showWithin > 0 && !closeToSunrise && !closeToSunset) { return }
+  
+  // Otherwise, determine which time to show.
+  const showSunrise = closeTo(sunrise) <= closeTo(sunset)
+  
+  // Set up the stack.
+  const sunriseStack = align(column)
+  sunriseStack.setPadding(padding, padding, padding, padding)
+  sunriseStack.layoutHorizontally()
+  sunriseStack.centerAlignContent()
+  
+  // Add the correct symbol.
+  const symbolName = showSunrise ? "sunrise.fill" : "sunset.fill"
+  const symbol = sunriseStack.addImage(SFSymbol.named(symbolName).image)
+  symbol.imageSize = new Size(22,22)
+  
+  sunriseStack.addSpacer(padding * 0.8)
+  
+  // Add the time.
+  const timeText = formatTime(showSunrise ? new Date(sunrise) : new Date(sunset))
+  const time = provideText(timeText, sunriseStack, textFormat.sunrise)
+}
+
+// Allow for either term to be used.
+async function sunset(column) {
+  return await sunrise(column)
+}
+
+/*
+ * HELPER FUNCTIONS
+ * These functions perform duties for other functions.
+ * ===================================================
+ */
+
+// Determines if the provided date is at night.
+function isNight(dateInput) {
+  const timeValue = dateInput.getTime()
+  return (timeValue < sunData.sunrise) || (timeValue > sunData.sunset)
+}
+
+// Determines if two dates occur on the same day
+function sameDay(d1, d2) {
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+}
+
+// Returns the number of minutes between now and the provided date.
+function closeTo(time) {
+  return Math.abs(currentDate.getTime() - time) / 60000
+}
+
+// Format the time for a Date input.
+function formatTime(date) {
+  let df = new DateFormatter()
+  df.locale = locale
+  df.useNoDateStyle()
+  df.useShortTimeStyle()
+  return df.string(date)
+}
+
+// Provide a text symbol with the specified shape.
+function provideTextSymbol(shape) {
+
+  // Rectangle character.
+  if (shape.startsWith("rect")) {
+    return "\u2759"
+  }
+  // Circle character.
+  if (shape == "circle") {
+    return "\u2B24"
+  }
+  // Default to the rectangle.
+  return "\u2759" 
+}
+
+// Provide a battery SFSymbol with accurate level drawn on top of it.
+function provideBatteryIcon() {
+  
+  // Set the size of the battery icon.
+  const batteryWidth = 87
+  const batteryHeight = 41
+  
+  // Start our draw context.
   let draw = new DrawContext()
-  draw.size = new Size(rect.width, rect.height)
+  draw.opaque = false
+  draw.respectScreenScale = true
+  draw.size = new Size(batteryWidth, batteryHeight)
   
-  draw.drawImageAtPoint(img,new Point(-rect.x, -rect.y))  
+  // Draw the battery.
+  draw.drawImageInRect(SFSymbol.named("battery.0").image, new Rect(0, 0, batteryWidth, batteryHeight))
+  
+  // Match the battery level values to the SFSymbol.
+  const x = batteryWidth*0.1525
+  const y = batteryHeight*0.247
+  const width = batteryWidth*0.602
+  const height = batteryHeight*0.505
+  
+  // Prevent unreadable icons.
+  let level = Device.batteryLevel()
+  if (level < 0.05) { level = 0.05 }
+  
+  // Determine the width and radius of the battery level.
+  const current = width * level
+  let radius = height/6.5
+  
+  // When it gets low, adjust the radius to match.
+  if (current < (radius * 2)) { radius = current / 2 }
+
+  // Make the path for the battery level.
+  let barPath = new Path()
+  barPath.addRoundedRect(new Rect(x, y, current, height), radius, radius)
+  draw.addPath(barPath)
+  draw.setFillColor(Color.black())
+  draw.fillPath()
   return draw.getImage()
 }
 
-// Pixel sizes and positions for widgets on all supported phones.
-// 所有支持的手机上小部件的像素大小和位置。
-function phoneSizes() {
-  let phones = {	
-	"2688": {
-			"small":  507,
-			"medium": 1080,
-			"large":  1137,
-			"left":  81,
-			"right": 654,
-			"top":    228,
-			"middle": 858,
-			"bottom": 1488
-	},
-	
-	"1792": {
-			"small":  338,
-			"medium": 720,
-			"large":  758,
-			"left":  54,
-			"right": 436,
-			"top":    160,
-			"middle": 580,
-			"bottom": 1000
-	},
-	
-	"2436": {
-			"small":  465,
-			"medium": 987,
-			"large":  1035,
-			"left":  69,
-			"right": 591,
-			"top":    213,
-			"middle": 783,
-			"bottom": 1353
-	},
-	
-	"2208": {
-			"small":  471,
-			"medium": 1044,
-			"large":  1071,
-			"left":  99,
-			"right": 672,
-			"top":    114,
-			"middle": 696,
-			"bottom": 1278
-	},
-	
-	"1334": {
-			"small":  296,
-			"medium": 642,
-			"large":  648,
-			"left":  54,
-			"right": 400,
-			"top":    60,
-			"middle": 412,
-			"bottom": 764
-	},
-	
-	"1136": {
-			"small":  282,
-			"medium": 584,
-			"large":  622,
-			"left": 30,
-			"right": 332,
-			"top":  59,
-			"middle": 399,
-			"bottom": 399
-	},
-        "1624": {
-                        "small": 310,
-                        "medium": 658,
-                        "large": 690,
-                        "left": 46,
-                        "right": 394,
-                        "top": 142,
-                        "middle": 522,
-                        "bottom": 902 
-        }
+// Provide a symbol based on the condition.
+function provideConditionSymbol(cond,night) {
+  
+  // Define our symbol equivalencies.
+  let symbols = {
+  
+    // Thunderstorm
+    "2": function() { return "cloud.bolt.rain.fill" },
+    
+    // Drizzle
+    "3": function() { return "cloud.drizzle.fill" },
+    
+    // Rain
+    "5": function() { return (cond == 511) ? "cloud.sleet.fill" : "cloud.rain.fill" },
+    
+    // Snow
+    "6": function() { return (cond >= 611 && cond <= 613) ? "cloud.snow.fill" : "snow" },
+    
+    // Atmosphere
+    "7": function() {
+      if (cond == 781) { return "tornado" }
+      if (cond == 701 || cond == 741) { return "cloud.fog.fill" }
+      return night ? "cloud.fog.fill" : "sun.haze.fill"
+    },
+    
+    // Clear and clouds
+    "8": function() {
+      if (cond == 800 || cond == 801) { return night ? "moon.stars.fill" : "sun.max.fill" }
+      if (cond == 802 || cond == 803) { return night ? "cloud.moon.fill" : "cloud.sun.fill" }
+      return "cloud.fill"
+    }
   }
-  return phones
+  
+  // Find out the first digit.
+  let conditionDigit = Math.floor(cond / 100)
+  
+  // Get the symbol.
+  return SFSymbol.named(symbols[conditionDigit]()).image
+}
+
+// Provide a font based on the input.
+function provideFont(fontName, fontSize) {
+  const fontGenerator = {
+    "ultralight": function() { return Font.ultraLightSystemFont(fontSize) },
+    "light": function() { return Font.lightSystemFont(fontSize) },
+    "regular": function() { return Font.regularSystemFont(fontSize) },
+    "medium": function() { return Font.mediumSystemFont(fontSize) },
+    "semibold": function() { return Font.semiboldSystemFont(fontSize) },
+    "bold": function() { return Font.boldSystemFont(fontSize) },
+    "heavy": function() { return Font.heavySystemFont(fontSize) },
+    "black": function() { return Font.blackSystemFont(fontSize) },
+    "italic": function() { return Font.italicSystemFont(fontSize) }
+  }
+  
+  const systemFont = fontGenerator[fontName]
+  if (systemFont) { return systemFont() }
+  return new Font(fontName, fontSize)
+}
+ 
+// Add formatted text to a container.
+function provideText(string, container, format) {
+  const textItem = container.addText(string)
+  const textFont = format.font || textFormat.defaultText.font
+  const textSize = format.size || textFormat.defaultText.size
+  const textColor = format.color || textFormat.defaultText.color
+  
+  textItem.font = provideFont(textFont, textSize)
+  textItem.textColor = new Color(textColor)
+  return textItem
+}
+
+/*
+ * DRAWING FUNCTIONS
+ * These functions draw onto a canvas.
+ * ===================================
+ */
+
+// Draw the vertical line in the tomorrow view.
+function drawVerticalLine(color, height) {
+  
+  const width = 2
+  
+  let draw = new DrawContext()
+  draw.opaque = false
+  draw.respectScreenScale = true
+  draw.size = new Size(width,height)
+  
+  let barPath = new Path()
+  const barHeight = height
+  barPath.addRoundedRect(new Rect(0, 0, height, height), width/2, width/2)
+  draw.addPath(barPath)
+  draw.setFillColor(color)
+  draw.fillPath()
+  
+  return draw.getImage()
+}
+
+// Draw the temp bar.
+function drawTempBar() {
+
+  // Set the size of the temp bar.
+  const tempBarWidth = 200
+  const tempBarHeight = 20
+  
+  // Calculate the current percentage of the high-low range.
+  let percent = (weatherData.currentTemp - weatherData.todayLow) / (weatherData.todayHigh - weatherData.todayLow)
+
+  // If we're out of bounds, clip it.
+  if (percent < 0) {
+    percent = 0
+  } else if (percent > 1) {
+    percent = 1
+  }
+
+  // Determine the scaled x-value for the current temp.
+  const currPosition = (tempBarWidth - tempBarHeight) * percent
+
+  // Start our draw context.
+  let draw = new DrawContext()
+  draw.opaque = false
+  draw.respectScreenScale = true
+  draw.size = new Size(tempBarWidth, tempBarHeight)
+
+  // Make the path for the bar.
+  let barPath = new Path()
+  const barHeight = tempBarHeight - 10
+  barPath.addRoundedRect(new Rect(0, 5, tempBarWidth, barHeight), barHeight / 2, barHeight / 2)
+  draw.addPath(barPath)
+  draw.setFillColor(new Color("ffffff", 0.5))
+  draw.fillPath()
+
+  // Make the path for the current temp indicator.
+  let currPath = new Path()
+  currPath.addEllipse(new Rect(currPosition, 0, tempBarHeight, tempBarHeight))
+  draw.addPath(currPath)
+  draw.setFillColor(new Color("ffffff", 1))
+  draw.fillPath()
+
+  return draw.getImage()
 }
