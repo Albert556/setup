@@ -31,10 +31,12 @@ set showmode
 "显示括号匹配
 set showmatch
 " 高亮搜索结果
-set hlsearch      
+set hlsearch
 "设置缩进
 "设置Tab长度为4空格
 set tabstop=4
+" 显示缩进
+set list
 "设置自动缩进长度为4空格
 set shiftwidth=4
 "继承前一行的缩进方式，适用于多行注释
@@ -58,7 +60,7 @@ set hlsearch
 " 跟随输入匹配第一个结果
 set incsearch
 " 忽略大小写
-set ignorecase
+" set ignorecase
 " 智能大小写
 set smartcase
 "打开文件类型检测
@@ -66,32 +68,12 @@ filetype plugin indent on
 set foldenable                 " 允许折叠 
 set foldmethod=manual          " 手动折叠
 
-" 临时文件管理
-" 如果文件夹不存在，则新建文件夹
-if !isdirectory($HOME.'/.vim/files') && exists('*mkdir')
-  call mkdir($HOME.'/.vim/files')
-endif
-
-" 备份文件
-set backup
-set backupdir   =$HOME/.vim/files/backup/
-set backupext   =-vimbackup
-set backupskip  =
-" 交换文件
-set directory   =$HOME/.vim/files/swap//
-set updatecount =100
-" 撤销文件
-set undofile
-set undodir     =$HOME/.vim/files/undo/
-" viminfo 文件
-set viminfo     ='100,n$HOME/.vim/info/viminfo
-
 " 自动切换工作目录
 set autochdir
 " 出错时，不要发出响声
 set noerrorbells
 " 发出视觉提示
-set visualbell
+"set visualbell
 " 打开文件监视
 set autoread
 " 命令模式自动补全
@@ -106,9 +88,11 @@ set statusline+=%4*\ row:%l/%L,col:%c\ %*   "显示光标所在行和列
 set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的比例
 
 " 按键映射
-" 命令行上下键
-cnoremap <c-n> <down>
-cnoremap <c-p> <up>
+" jj <ESC>
+inoremap jj <ESC>
+" 快速头尾
+nnoremap H ^
+nnoremap L $
 " 快速移动当前行
 nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
 nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
