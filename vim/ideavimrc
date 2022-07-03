@@ -1,0 +1,100 @@
+let mapleader=' '
+
+" plugins
+set which-key
+set easy-motion
+set sneak
+" 在normal模式下保持英文输入法（IdeaVimExtension）
+set keep-english-in-normal
+" 在normal模式下保持英文输入法，插入模式下回复插入模式时的输入法（IdeaVimExtension）
+set keep-english-in-normal-and-restore-in-insert
+
+syntax on
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmode
+set number
+set relativenumber
+set scrolloff=3
+set history=2000
+set clipboard=unnamed
+set laststatus=2
+set nobackup
+set noswapfile
+
+nnoremap H ^
+nnoremap L $
+
+" Move half page faster
+" (上下翻页)
+nnoremap J 10j
+nnoremap K 10k
+
+inoremap jk <Esc>
+
+" Redo
+nnoremap U <C-r>
+
+" 打开历史打开项"
+nnoremap rp :action RecentProjectListGroup<CR>
+
+"跳转到声明
+nnoremap gd :action GotoDeclaration<CR>
+"跳转到实现类
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gs :action GotoSuperMethod<CR>
+nnoremap t :action Back<CR>
+nnoremap T :action Forward<CR>
+nnoremap <Leader>jl :action JumpToLastChange<CR>
+"跳转到测试类(没有则自动建立)
+nnoremap <Leader>gt :action GotoTest<CR>
+
+"显示当前文件路径
+nnoremap <Leader>sp :action ShowFilePath<CR>
+"显示使用
+nnoremap su :action ShowUsages<CR>
+
+" 搜索全部
+nnoremap fg :action SearchEverywhere<CR>
+"查找跳转到实体类
+nnoremap fc :action GotoClass<CR>
+"查找跳转到文件
+nnoremap ff :action GotoFile<CR>
+nnoremap fs :action GotoSymbol<CR>
+"查找跳转到Action
+nnoremap fa :action GotoAction<CR>
+
+"重命名
+nnoremap rn :action RenameElement<CR>
+
+"修改当前文件的文件名
+nnoremap rF :action RenameFile<CR>
+
+"添加注释
+nnoremap gcc :action CommentByLineComment<CR>
+vnoremap gc :action CommentByLineComment<CR>
+
+" quick fix
+nnoremap ca :action ShowIntentionActions<CR>
+
+" 展示错误信息
+nnoremap sd :action ShowErrorDescription<CR>
+" 展示错误信息
+nnoremap ]d :action GotoNextError<CR>
+
+" 格式化代码
+nnoremap <Leader>= :action ReformatCode<CR>
+vnoremap <Leader>= :action ReformatCode<CR>
+" 排序import
+nnoremap [] :action OptimizeImports<CR>
+vnoremap [] :action OptimizeImports<CR>
+" 调试
+"打断点
+nnoremap bb :action ToggleLineBreakpoint<CR>
+
+"查看所有断点
+nnoremap vb :action ViewBreakpoints<CR>
+
