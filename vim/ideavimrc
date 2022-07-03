@@ -1,8 +1,13 @@
 let mapleader=' '
 
 " plugins
+" which-key
 set which-key
-set easy-motion
+set notimeout
+set timeoutlen=3000
+" easy-motion
+set easymotion
+" sneak
 set sneak
 " 在normal模式下保持英文输入法（IdeaVimExtension）
 set keep-english-in-normal
@@ -55,7 +60,7 @@ nnoremap <Leader>gt :action GotoTest<CR>
 "显示当前文件路径
 nnoremap <Leader>sp :action ShowFilePath<CR>
 "显示使用
-nnoremap su :action ShowUsages<CR>
+nnoremap <Leader>su :action ShowUsages<CR>
 
 " 搜索全部
 nnoremap fg :action SearchEverywhere<CR>
@@ -81,7 +86,7 @@ vnoremap gc :action CommentByLineComment<CR>
 nnoremap ca :action ShowIntentionActions<CR>
 
 " 展示错误信息
-nnoremap sd :action ShowErrorDescription<CR>
+nnoremap <Leader>sd :action ShowErrorDescription<CR>
 " 展示错误信息
 nnoremap ]d :action GotoNextError<CR>
 
