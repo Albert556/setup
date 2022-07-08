@@ -98,7 +98,7 @@ nnoremap [] :action OptimizeImports<CR>
 vnoremap [] :action OptimizeImports<CR>
 " 调试
 "打断点
-nnoremap bb :action ToggleLineBreakpoint<CR>
+nnoremap tb :action ToggleLineBreakpoint<CR>
 
 "查看所有断点
 nnoremap vb :action ViewBreakpoints<CR>
