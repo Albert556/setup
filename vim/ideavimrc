@@ -3,8 +3,8 @@ let mapleader=' '
 " plugins
 " which-key
 set which-key
-set notimeout
-set timeoutlen=3000
+" set notimeout
+set timeoutlen=500
 " easy-motion
 set easymotion
 " sneak
@@ -13,6 +13,10 @@ set sneak
 set keep-english-in-normal
 " 在normal模式下保持英文输入法，插入模式下回复插入模式时的输入法（IdeaVimExtension）
 set keep-english-in-normal-and-restore-in-insert
+" NERDTree"
+set NERDTree
+" multiple-cursors"
+set multiple-cursors
 
 syntax on
 
@@ -20,6 +24,9 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+set autoindent
+set cindent
+set cursorline
 set showmode
 set number
 set relativenumber
@@ -29,6 +36,11 @@ set clipboard=unnamed
 set laststatus=2
 set nobackup
 set noswapfile
+" 交换单字或行
+set exchange
+" 屏幕滚动时在光标上下方保留5行预览代码
+set so=5
+
 
 nnoremap H ^
 nnoremap L $
@@ -43,24 +55,29 @@ inoremap jk <Esc>
 " Redo
 nnoremap U <C-r>
 
-" 打开历史打开项"
-nnoremap rp :action RecentProjectListGroup<CR>
-
 "跳转到声明
-nnoremap gd :action GotoDeclaration<CR>
+nnoremap gD :action GotoDeclaration<CR>
 "跳转到实现类
 nnoremap gi :action GotoImplementation<CR>
 nnoremap gs :action GotoSuperMethod<CR>
+" 光标处显示文档"
+nnoremap gh :action QuickJavaDoc<CR>
 nnoremap t :action Back<CR>
 nnoremap T :action Forward<CR>
 nnoremap <Leader>jl :action JumpToLastChange<CR>
 "跳转到测试类(没有则自动建立)
 nnoremap <Leader>gt :action GotoTest<CR>
 
+"  智能提示"
+nnoremap sa :action ShowIntentionActions<CR>
+" 显示参数信息"
+nnoremap gp :action ParameterInfo<CR>
+" inoremap gp <ESC>:action ParameterInfo<CR>a
+
 "显示当前文件路径
 nnoremap <Leader>sp :action ShowFilePath<CR>
 "显示使用
-nnoremap <Leader>su :action ShowUsages<CR>
+nnoremap su :action ShowUsages<CR>
 
 " 搜索全部
 nnoremap fg :action SearchEverywhere<CR>
@@ -71,35 +88,49 @@ nnoremap ff :action GotoFile<CR>
 nnoremap fs :action GotoSymbol<CR>
 "查找跳转到Action
 nnoremap fa :action GotoAction<CR>
+" 查找使用的地方
+nnoremap fu :action FindUsages<CR>
 
 "重命名
 nnoremap rn :action RenameElement<CR>
 
 "修改当前文件的文件名
 nnoremap rF :action RenameFile<CR>
+" 历史文件
+nnoremap <leader>cf :action RecentFiles<CR>
+" 打开历史打开项"
+nnoremap <Leader>rp :action RecentProjectListGroup<CR>
 
 "添加注释
 nnoremap gcc :action CommentByLineComment<CR>
 vnoremap gc :action CommentByLineComment<CR>
 
+" 打开terminal窗口
+noremap <C-\> :action ActivateTerminalToolWindow<CR>
+
 " quick fix
 nnoremap ca :action ShowIntentionActions<CR>
+nnoremap cc a<space><ESC>:action CodeCompletion<CR>
 
 " 展示错误信息
 nnoremap <Leader>sd :action ShowErrorDescription<CR>
-" 展示错误信息
+" 跳到下一个错误信息
 nnoremap ]d :action GotoNextError<CR>
+vnoremap ]d :action GotoNextError<CR>
+" 跳到上一个错误信息
+nnoremap [d :action GotoPreviousError<CR>
+vnoremap [d :action GotoPreviousError<CR>
 
 " 格式化代码
 nnoremap <Leader>= :action ReformatCode<CR>
 vnoremap <Leader>= :action ReformatCode<CR>
+
 " 排序import
-nnoremap [] :action OptimizeImports<CR>
-vnoremap [] :action OptimizeImports<CR>
+nnoremap <Leader>oi :action OptimizeImports<CR>
+
 " 调试
 "打断点
 nnoremap tb :action ToggleLineBreakpoint<CR>
 
 "查看所有断点
 nnoremap vb :action ViewBreakpoints<CR>
-
