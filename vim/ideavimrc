@@ -3,20 +3,31 @@ let mapleader=' '
 " plugins
 " which-key
 set which-key
-" set notimeout
-set timeoutlen=500
+set notimeout
+set timeoutlen=5000
 " easy-motion
 set easymotion
+" 文件内跳转
+map <Leader><Leader>s <Plug>(easymotion-s)
 " sneak
-set sneak
+" set sneak
+" surround
+set surround
+" 多光标 
+set multiple-cursors
+" 注释插件
+set commentary
+set argtextobj
 " 在normal模式下保持英文输入法（IdeaVimExtension）
 set keep-english-in-normal
 " 在normal模式下保持英文输入法，插入模式下回复插入模式时的输入法（IdeaVimExtension）
 set keep-english-in-normal-and-restore-in-insert
 " NERDTree"
 set NERDTree
-" multiple-cursors"
-set multiple-cursors
+" vim-indent-object
+set textobj-indent
+" vim-paragraph-motion
+set vim-paragraph-motion
 
 syntax on
 
@@ -52,6 +63,13 @@ nnoremap K 10k
 
 inoremap jk <Esc>
 
+" 文件操作
+map <Leader>f :NERDTreeToggle<CR>
+" 选择打开的文件
+map <leader><leader>f <Action>(SelectInProjectView)
+" o 打开
+
+
 " Redo
 nnoremap U <C-r>
 
@@ -62,17 +80,16 @@ nnoremap gi :action GotoImplementation<CR>
 nnoremap gs :action GotoSuperMethod<CR>
 " 光标处显示文档"
 nnoremap gh :action QuickJavaDoc<CR>
-nnoremap t :action Back<CR>
-nnoremap T :action Forward<CR>
 nnoremap <Leader>jl :action JumpToLastChange<CR>
 "跳转到测试类(没有则自动建立)
 nnoremap <Leader>gt :action GotoTest<CR>
+" 前进，相当似于eclipse中的alt+方向右键
+nnoremap = :action EditorNextWord<CR>
+" 后退，相当于eclipse中的alt+方向左键
+nnoremap - <A-C-Left>
 
-"  智能提示"
-nnoremap sa :action ShowIntentionActions<CR>
 " 显示参数信息"
 nnoremap gp :action ParameterInfo<CR>
-" inoremap gp <ESC>:action ParameterInfo<CR>a
 
 "显示当前文件路径
 nnoremap <Leader>sp :action ShowFilePath<CR>
@@ -80,16 +97,16 @@ nnoremap <Leader>sp :action ShowFilePath<CR>
 nnoremap su :action ShowUsages<CR>
 
 " 搜索全部
-nnoremap fg :action SearchEverywhere<CR>
+nnoremap <Leader>fg :action SearchEverywhere<CR>
 "查找跳转到实体类
-nnoremap fc :action GotoClass<CR>
+" nnoremap <Leader>fc :action GotoClass<CR>
 "查找跳转到文件
-nnoremap ff :action GotoFile<CR>
-nnoremap fs :action GotoSymbol<CR>
+" nnoremap <Leader>ff :action GotoFile<CR>
+" nnoremap <Leader>fs :action GotoSymbol<CR>
 "查找跳转到Action
-nnoremap fa :action GotoAction<CR>
+" nnoremap <Leader>fa :action GotoAction<CR>
 " 查找使用的地方
-nnoremap fu :action FindUsages<CR>
+" nnoremap fu :action FindUsages<CR>
 
 "重命名
 nnoremap rn :action RenameElement<CR>
@@ -100,6 +117,8 @@ nnoremap rF :action RenameFile<CR>
 nnoremap <leader>cf :action RecentFiles<CR>
 " 打开历史打开项"
 nnoremap <Leader>rp :action RecentProjectListGroup<CR>
+" 打开项目
+nnoremap <Leader>p :action ActivateProjectToolWindow<CR>
 
 "添加注释
 nnoremap gcc :action CommentByLineComment<CR>
@@ -110,10 +129,10 @@ noremap <C-\> :action ActivateTerminalToolWindow<CR>
 
 " quick fix
 nnoremap ca :action ShowIntentionActions<CR>
-nnoremap cc a<space><ESC>:action CodeCompletion<CR>
+nnoremap vv a<space><ESC>:action CodeCompletion<CR>
 
 " 展示错误信息
-nnoremap <Leader>sd :action ShowErrorDescription<CR>
+nnoremap sd :action ShowErrorDescription<CR>
 " 跳到下一个错误信息
 nnoremap ]d :action GotoNextError<CR>
 vnoremap ]d :action GotoNextError<CR>
