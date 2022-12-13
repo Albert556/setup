@@ -90,7 +90,7 @@ nnoremap <leader>jl :action JumpToLastChange<cr>
 nnoremap <leader>gt :action GotoTest<cr>
 nnoremap H <Action>(Back)
 nnoremap L <Action>(Forward)
-nnoremap <esc> :noh<cr>
+nnoremap <esc> :noh<cr>:action ReformatCode<cr>
 
 
 " 显示参数信息"
@@ -146,8 +146,7 @@ nnoremap [d :action GotoPreviousError<cr>
 vnoremap [d :action GotoPreviousError<cr>
 
 " 格式化代码
-nnoremap <leader>= :action ReformatCode<cr>
-vnoremap <leader>= :action ReformatCode<cr>
+" nnoremap <leader>= :action ReformatCode<cr>
 
 " 排序import
 nnoremap <leader>oi :action OptimizeImports<cr>
