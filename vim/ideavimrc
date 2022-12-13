@@ -8,7 +8,7 @@ set timeoutlen=5000
 " easy-motion
 set easymotion
 " 文件内跳转
-map <Leader><Leader>s <Plug>(easymotion-s)
+map <leader><leader>s <Plug>(easymotion-s)
 " sneak
 " set sneak
 " surround
@@ -55,6 +55,11 @@ set so=5
 
 nnoremap H ^
 nnoremap L $
+vnoremap H ^
+vnoremap L $
+
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
 
 " Move half page faster
 " (上下翻页)
@@ -64,9 +69,9 @@ nnoremap K 10k
 inoremap jk <Esc>
 
 " 文件操作
-map <Leader>f :NERDTreeToggle<CR>
+nnoremap <leader>f :NERDTreeToggle<cr>
 " 选择打开的文件
-map <leader><leader>f <Action>(SelectInProjectView)
+nnoremap <leader><leader>f <Action>(SelectInProjectView)
 " o 打开
 
 
@@ -74,82 +79,74 @@ map <leader><leader>f <Action>(SelectInProjectView)
 nnoremap U <C-r>
 
 "跳转到声明
-nnoremap gD :action GotoDeclaration<CR>
+nnoremap gD :action GotoDeclaration<cr>
 "跳转到实现类
-nnoremap gi :action GotoImplementation<CR>
-nnoremap gs :action GotoSuperMethod<CR>
+nnoremap gi :action GotoImplementation<cr>
+nnoremap gs :action GotoSuperMethod<cr>
 " 光标处显示文档"
-nnoremap gh :action QuickJavaDoc<CR>
-nnoremap <Leader>jl :action JumpToLastChange<CR>
+nnoremap gh :action QuickJavaDoc<cr>
+nnoremap <leader>jl :action JumpToLastChange<cr>
 "跳转到测试类(没有则自动建立)
-nnoremap <Leader>gt :action GotoTest<CR>
-" 前进，相当似于eclipse中的alt+方向右键
-nnoremap = :action EditorNextWord<CR>
-" 后退，相当于eclipse中的alt+方向左键
-nnoremap - <A-C-Left>
+nnoremap <leader>gt :action GotoTest<cr>
+nmap H <Action>(Back)
+nmap L <Action>(Forward)
+
 
 " 显示参数信息"
-nnoremap gp :action ParameterInfo<CR>
+nnoremap gp :action ParameterInfo<cr>
 
 "显示当前文件路径
-nnoremap <Leader>sp :action ShowFilePath<CR>
+nnoremap <leader>sp :action ShowFilePath<cr>
 "显示使用
-nnoremap su :action ShowUsages<CR>
+nnoremap su :action ShowUsages<cr>
 
 " 搜索全部
-nnoremap <Leader>fg :action SearchEverywhere<CR>
+nnoremap <leader>fg :action SearchEverywhere<cr>
 "查找跳转到实体类
-" nnoremap <Leader>fc :action GotoClass<CR>
+" nnoremap <leader>fc :action GotoClass<cr>
 "查找跳转到文件
-" nnoremap <Leader>ff :action GotoFile<CR>
-" nnoremap <Leader>fs :action GotoSymbol<CR>
+" nnoremap <leader>ff :action GotoFile<cr>
+" nnoremap <leader>fs :action GotoSymbol<cr>
 "查找跳转到Action
-" nnoremap <Leader>fa :action GotoAction<CR>
+" nnoremap <leader>fa :action GotoAction<cr>
 " 查找使用的地方
-" nnoremap fu :action FindUsages<CR>
+" nnoremap <leader>fu :action FindUsages<cr>
 
 "重命名
-nnoremap rn :action RenameElement<CR>
+nnoremap rn :action RenameElement<cr>
 
 "修改当前文件的文件名
-nnoremap rF :action RenameFile<CR>
+nnoremap rF :action RenameFile<cr>
 " 历史文件
-nnoremap <leader>cf :action RecentFiles<CR>
+nnoremap <leader>cf :action RecentFiles<cr>
 " 打开历史打开项"
-nnoremap <Leader>rp :action RecentProjectListGroup<CR>
+nnoremap <leader>rp :action RecentProjectListGroup<cr>
 " 打开项目
-nnoremap <Leader>p :action ActivateProjectToolWindow<CR>
+nnoremap <leader>p :action ActivateProjectToolWindow<cr>
 
 "添加注释
-nnoremap gcc :action CommentByLineComment<CR>
-vnoremap gc :action CommentByLineComment<CR>
+nnoremap gcc :action CommentByLineComment<cr>
+vnoremap gc :action CommentByLineComment<cr>
 
 " 打开terminal窗口
-noremap <C-\> :action ActivateTerminalToolWindow<CR>
+noremap <C-\> :action ActivateTerminalToolWindow<cr>
 
 " quick fix
-nnoremap ca :action ShowIntentionActions<CR>
-nnoremap vv a<space><ESC>:action CodeCompletion<CR>
+nnoremap ca :action ShowIntentionActions<cr>
+nnoremap vv a<space><ESC>:action CodeCompletion<cr>
 
 " 展示错误信息
-nnoremap sd :action ShowErrorDescription<CR>
+nnoremap sd :action ShowErrorDescription<cr>
 " 跳到下一个错误信息
-nnoremap ]d :action GotoNextError<CR>
-vnoremap ]d :action GotoNextError<CR>
+nnoremap ]d :action GotoNextError<cr>
+vnoremap ]d :action GotoNextError<cr>
 " 跳到上一个错误信息
-nnoremap [d :action GotoPreviousError<CR>
-vnoremap [d :action GotoPreviousError<CR>
+nnoremap [d :action GotoPreviousError<cr>
+vnoremap [d :action GotoPreviousError<cr>
 
 " 格式化代码
-nnoremap <Leader>= :action ReformatCode<CR>
-vnoremap <Leader>= :action ReformatCode<CR>
+nnoremap <leader>= :action ReformatCode<cr>
+vnoremap <leader>= :action ReformatCode<cr>
 
 " 排序import
-nnoremap <Leader>oi :action OptimizeImports<CR>
-
-" 调试
-"打断点
-nnoremap tb :action ToggleLineBreakpoint<CR>
-
-"查看所有断点
-nnoremap vb :action ViewBreakpoints<CR>
+nnoremap <leader>oi :action OptimizeImports<cr>
