@@ -88,8 +88,9 @@ nnoremap gh :action QuickJavaDoc<cr>
 nnoremap <leader>jl :action JumpToLastChange<cr>
 "跳转到测试类(没有则自动建立)
 nnoremap <leader>gt :action GotoTest<cr>
-nmap H <Action>(Back)
-nmap L <Action>(Forward)
+nnoremap H <Action>(Back)
+nnoremap L <Action>(Forward)
+nnoremap <esc> :noh<cr>
 
 
 " 显示参数信息"
