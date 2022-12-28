@@ -1,16 +1,14 @@
 let mapleader=' '
 
+set timeout=500
+
 " plugins
-" which-key
-set which-key
-set notimeout
-set timeoutlen=5000
 " easy-motion
 set easymotion
 " 文件内跳转
 map <leader><leader>s <Plug>(easymotion-s)
 " sneak
-" set sneak
+set sneak
 " surround
 set surround
 " 多光标 
@@ -18,12 +16,10 @@ set multiple-cursors
 " 注释插件
 set commentary
 set argtextobj
-" 在normal模式下保持英文输入法（IdeaVimExtension）
-set keep-english-in-normal
-" 在normal模式下保持英文输入法，插入模式下回复插入模式时的输入法（IdeaVimExtension）
-set keep-english-in-normal-and-restore-in-insert
 " NERDTree"
 set NERDTree
+nmap <leader>e :NERDTree<cr>
+nmap <leader>ee :NERDTreeFocus<cr>
 " vim-indent-object
 set textobj-indent
 " vim-paragraph-motion
@@ -88,9 +84,9 @@ nnoremap gh :action QuickJavaDoc<cr>
 nnoremap <leader>jl :action JumpToLastChange<cr>
 "跳转到测试类(没有则自动建立)
 nnoremap <leader>gt :action GotoTest<cr>
-nnoremap H <Action>(Back)
-nnoremap L <Action>(Forward)
-nnoremap <esc> :noh<cr>:action ReformatCode<cr>
+nmap t <Action>(Back)
+nmap T <Action>(Forward)
+nnoremap <C-n> :noh<cr>
 
 
 " 显示参数信息"
@@ -146,7 +142,7 @@ nnoremap [d :action GotoPreviousError<cr>
 vnoremap [d :action GotoPreviousError<cr>
 
 " 格式化代码
-" nnoremap <leader>= :action ReformatCode<cr>
+nnoremap == :action ReformatCode<cr>
 
 " 排序import
 nnoremap <leader>oi :action OptimizeImports<cr>
