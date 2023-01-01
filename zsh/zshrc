@@ -26,7 +26,7 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}
 
 # ENV
 ## flutter env
-export PUB_HOSTED_URL="http://pub.lan.wiqun.com"
+# export PUB_HOSTED_URL="http://pub.lan.wiqun.com"
 
 ## 禁止brew自动更新
 export HOMEBREW_NO_AUTO_UPDATE=true
