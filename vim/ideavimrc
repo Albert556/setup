@@ -1,6 +1,6 @@
 let mapleader=' '
 
-set timeout=500
+set timeout=300
 
 " plugins
 " easy-motion
@@ -16,14 +16,21 @@ set multiple-cursors
 " 注释插件
 set commentary
 set argtextobj
+" 文件操作
 " NERDTree"
 set NERDTree
-nmap <leader>e :NERDTree<cr>
-nmap <leader>ee :NERDTreeFocus<cr>
+nmap <Leader>t :NERDTreeToggle<CR>
 " vim-indent-object
 set textobj-indent
 " vim-paragraph-motion
 set vim-paragraph-motion
+" which key
+set which-key
+" disable the timeout option
+" set notimeout
+" increase the timeoutlen (default: 1000), don't add space around the equal sign =
+set timeoutlen=3000
+let g:WhichKey_ShowVimActions = "true"
 
 syntax on
 
@@ -48,31 +55,18 @@ set exchange
 " 屏幕滚动时在光标上下方保留5行预览代码
 set so=5
 
-
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L $
-
-nnoremap <leader>w :w<cr>
-nnoremap <leader>q :q<cr>
-
-" Move half page faster
-" (上下翻页)
-nnoremap J 10j
-nnoremap K 10k
-
 inoremap jk <Esc>
+nnoremap <C-n> :noh<cr>
 
-" 文件操作
-nnoremap <leader>f :NERDTreeToggle<cr>
-" 选择打开的文件
-nnoremap <leader><leader>f <Action>(SelectInProjectView)
-" o 打开
+" terminal
+nmap <C-\> <Action>(ActivateTerminalToolWindow)
 
+nmap J <Action>(Back)
+nmap K <Action>(Forward)
 
-" Redo
-nnoremap U <C-r>
+" tab
+nnoremap H :action PreviousTab<cr>
+nnoremap L :action NextTab<cr>
 
 "跳转到声明
 nnoremap gD :action GotoDeclaration<cr>
@@ -84,10 +78,6 @@ nnoremap gh :action QuickJavaDoc<cr>
 nnoremap <leader>jl :action JumpToLastChange<cr>
 "跳转到测试类(没有则自动建立)
 nnoremap <leader>gt :action GotoTest<cr>
-nmap t <Action>(Back)
-nmap T <Action>(Forward)
-nnoremap <C-n> :noh<cr>
-
 
 " 显示参数信息"
 nnoremap gp :action ParameterInfo<cr>
@@ -125,9 +115,6 @@ nnoremap <leader>p :action ActivateProjectToolWindow<cr>
 nnoremap gcc :action CommentByLineComment<cr>
 vnoremap gc :action CommentByLineComment<cr>
 
-" 打开terminal窗口
-noremap <C-\> :action ActivateTerminalToolWindow<cr>
-
 " quick fix
 nnoremap ca :action ShowIntentionActions<cr>
 nnoremap vv a<space><ESC>:action CodeCompletion<cr>
@@ -135,11 +122,9 @@ nnoremap vv a<space><ESC>:action CodeCompletion<cr>
 " 展示错误信息
 nnoremap sd :action ShowErrorDescription<cr>
 " 跳到下一个错误信息
-nnoremap ]d :action GotoNextError<cr>
-vnoremap ]d :action GotoNextError<cr>
+nnoremap <TAB> :action GotoNextError<cr>
 " 跳到上一个错误信息
-nnoremap [d :action GotoPreviousError<cr>
-vnoremap [d :action GotoPreviousError<cr>
+nnoremap <s-TAB> :action GotoPreviousError<cr>
 
 " 格式化代码
 nnoremap == :action ReformatCode<cr>
