@@ -1,6 +1,11 @@
-# prompt
-eval "$(starship init zsh)"
-# prompt
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+ 
+# 不保留重复的历史记录项
+setopt hist_ignore_all_dups
+# 在命令前添加空格，不将此命令添加到记录文件中
+setopt hist_ignore_space
 
 # zshrc plugs
 ## autosuggestions
@@ -38,4 +43,8 @@ alias ls="ls --color"
 ## nvim
  alias nvim="tmux new nvim"
 # alias
+
+# prompt
+eval "$(starship init zsh)"
+# prompt
 
