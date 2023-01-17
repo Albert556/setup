@@ -89,17 +89,4 @@ set statusline+=%5*\%3p%%\%*            "显示光标前文本所占总文本的
 
 " 按键映射
 inoremap jk <ESC>
-" 快速头尾
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L $
-" 快速上下移动
-nnoremap J 10j
-nnoremap K 10k
-" 快速移动当前行
-nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
-nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
-" 快速添加空行
-nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
-nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+
