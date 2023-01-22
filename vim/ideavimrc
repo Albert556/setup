@@ -29,7 +29,7 @@ set which-key
 " disable the timeout option
 " set notimeout
 " increase the timeoutlen (default: 1000), don't add space around the equal sign =
-set timeoutlen=3000
+set timeoutlen=300
 let g:WhichKey_ShowVimActions = "true"
 
 syntax on
