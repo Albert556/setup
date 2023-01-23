@@ -61,8 +61,8 @@ nnoremap <C-n> :noh<cr>
 " terminal
 nmap <C-\> <Action>(ActivateTerminalToolWindow)
 
-nmap J <Action>(Back)
-nmap K <Action>(Forward)
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
 
 " tab
 nnoremap H :action PreviousTab<cr>
