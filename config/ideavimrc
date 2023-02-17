@@ -19,7 +19,8 @@ set argtextobj
 " 文件操作
 " NERDTree"
 set NERDTree
-nmap <Leader>t :NERDTreeToggle<CR>
+nnoremap \ :NERDTree<CR>
+nnoremap <C-e> :NERDTreeFind<CR>
 " vim-indent-object
 set textobj-indent
 " vim-paragraph-motion
@@ -29,8 +30,11 @@ set which-key
 " disable the timeout option
 " set notimeout
 " increase the timeoutlen (default: 1000), don't add space around the equal sign =
-set timeoutlen=300
+set timeoutlen=3000
 let g:WhichKey_ShowVimActions = "true"
+
+" sethandler
+sethandler <C-p> a:vim
 
 syntax on
 
@@ -55,8 +59,12 @@ set exchange
 " 屏幕滚动时在光标上下方保留5行预览代码
 set so=5
 
-inoremap jk <Esc>
-nnoremap <C-n> :noh<cr>
+nnoremap <ESC> :noh<cr><ESC>
+inoremap <ESC> <ESC>:noh<cr><ESC>
+" nnoremap <Enter> :action EditorSelectWord<cr>
+" vnoremap <Enter> <ESC>:action EditorSelectWord<cr>
+" nnoremap <Backspace> :action EditorUnSelectWord<cr>
+" vnoremap <Backspace> <Esc>:action EditorUnSelectWord<cr>
 
 " terminal
 nmap <C-\> <Action>(ActivateTerminalToolWindow)
@@ -76,11 +84,8 @@ nnoremap gs :action GotoSuperMethod<cr>
 " 光标处显示文档"
 nnoremap gh :action QuickJavaDoc<cr>
 nnoremap <leader>jl :action JumpToLastChange<cr>
-"跳转到测试类(没有则自动建立)
-nnoremap <leader>gt :action GotoTest<cr>
-
 " 显示参数信息"
-nnoremap gp :action ParameterInfo<cr>
+nnoremap <C-p> :action ParameterInfo<cr>
 
 "显示当前文件路径
 nnoremap <leader>sp :action ShowFilePath<cr>
@@ -105,11 +110,11 @@ nnoremap rn :action RenameElement<cr>
 "修改当前文件的文件名
 nnoremap rF :action RenameFile<cr>
 " 历史文件
-nnoremap <leader>cf :action RecentFiles<cr>
-" 打开历史打开项"
-nnoremap <leader>rp :action RecentProjectListGroup<cr>
+nnoremap <leader>cF :action RecentFiles<cr>
+" 打开历史打"
+nnoremap <leader>rP :action RecentProjectListGroup<cr>
 " 打开项目
-nnoremap <leader>p :action ActivateProjectToolWindow<cr>
+nnoremap <leader><leader>p :action ActivateProjectToolWindow<cr>
 
 "添加注释
 nnoremap gcc :action CommentByLineComment<cr>
@@ -122,12 +127,12 @@ nnoremap vv a<space><ESC>:action CodeCompletion<cr>
 " 展示错误信息
 nnoremap sd :action ShowErrorDescription<cr>
 " 跳到下一个错误信息
-nnoremap <TAB> :action GotoNextError<cr>
+nnoremap ]d :action GotoNextError<cr>
 " 跳到上一个错误信息
-nnoremap <s-TAB> :action GotoPreviousError<cr>
+nnoremap [d :action GotoPreviousError<cr>
 
-" 格式化代码
-nnoremap == :action ReformatCode<cr>
+" 格式化代码 并保存
+nnoremap == :action ReformatCode<cr>:w<cr>
 
 " 排序import
 nnoremap <leader>oi :action OptimizeImports<cr>
