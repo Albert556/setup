@@ -69,8 +69,8 @@ inoremap <ESC> <ESC>:noh<cr><ESC>
 " terminal
 nmap <C-\> <Action>(ActivateTerminalToolWindow)
 
-nmap <C-k> <Action>(Back)
-nmap <C-j> <Action>(Forward)
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
 
 " tab
 nnoremap H :action PreviousTab<cr>
