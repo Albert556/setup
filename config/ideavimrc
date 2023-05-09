@@ -33,9 +33,6 @@ set which-key
 set timeoutlen=3000
 let g:WhichKey_ShowVimActions = "true"
 
-" sethandler
-sethandler <C-p> a:vim
-
 syntax on
 
 set hlsearch
@@ -50,7 +47,9 @@ set number
 set relativenumber
 set scrolloff=3
 set history=2000
-set clipboard=unnamed
+" 剪切板
+set clipboard+=unnamed
+set clipboard+=ideaput
 set laststatus=2
 set nobackup
 set noswapfile
@@ -59,15 +58,25 @@ set exchange
 " 屏幕滚动时在光标上下方保留5行预览代码
 set so=5
 
+" vim 托管配置
+sethandler <C-P> a:vim
+sethandler <C-C> a:ide
+sethandler <C-V> a:ide
+sethandler <C-A> a:ide
+sethandler \ n:vim i:ide
+
+" toggle terminal
+" nmap <C-\> <Action>(ActivateTerminalToolWindow)
+
+" toggle project
+nmap \ <Action>(ActivateProjectToolWindow)
+
 nnoremap <ESC> :noh<cr><ESC>
 inoremap <ESC> <ESC>:noh<cr><ESC>
 " nnoremap <Enter> :action EditorSelectWord<cr>
 " vnoremap <Enter> <ESC>:action EditorSelectWord<cr>
 " nnoremap <Backspace> :action EditorUnSelectWord<cr>
 " vnoremap <Backspace> <Esc>:action EditorUnSelectWord<cr>
-
-" terminal
-nmap <C-\> <Action>(ActivateTerminalToolWindow)
 
 nmap <C-o> <Action>(Back)
 nmap <C-i> <Action>(Forward)
